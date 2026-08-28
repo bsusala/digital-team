@@ -37,7 +37,7 @@ That is worth knowing before you read them as instructions handed down to a tool
 
 ---
 
-## The honest warning
+## A Warning
 
 The files are a small part of what makes this work.
 
@@ -111,8 +111,8 @@ is missing from this repository is most of what makes the part that is here work
 
 Bogdan Susala, with Claude.
 
-The credit is not a courtesy. These rules were not written about the sessions and handed
-down to them — most of the sharpest clauses were contributed by the session that had just
+These rules were not written about the sessions and handed down to them — most of the sharpest
+clauses were contributed by the session themselves that had just
 been burned by their absence, several corrections to the operator's own drafts came from
 the sessions, and the charter's structure was argued out between them. The copyright line
 below is a legal formality; it is not a description of who wrote this.
