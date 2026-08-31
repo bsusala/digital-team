@@ -358,7 +358,7 @@ session mid-failure-streak proposing to abandon work before a finalizing step, a
 operator's "copy the settings; if it fails, we paste, and we're back" unblocking it on
 the spot.)*
 
-**Escalation** (`R17.escalate-the-irreversible`). What cannot be made undoable —
+**Escalation** (`R17.escalate-the-irreversible`). What cannot be made reversible —
 genuinely, or not by you, or not without a loss of its own — escalates to the operator;
 it is never forbidden by this rule. Publication, sends to third parties, ratifications,
 destructive acts with no snapshot possible: operator's word, for that action, in that
