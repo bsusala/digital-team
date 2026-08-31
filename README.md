@@ -11,7 +11,7 @@ Take what is useful. Please read the disclaimers first; they are not boilerplate
 
 ---
 
-## Four disclaimers
+## Five disclaimers
 
 **1. This is a work in progress.** The rules change, get corrected, and occasionally get
 withdrawn. What is here is a snapshot of something still moving, published because a
@@ -34,6 +34,13 @@ corrected, and rewritten by the operator and the AI sessions together — most o
 sharpest clauses were contributed by a session that had just been burned by their
 absence, and several corrections to the operator's own drafts came from the sessions.
 That is worth knowing before you read them as instructions handed down to a tool.
+
+**5. Rules differ in age, and age here means service, not calendar.** Most clauses were
+paid for by an incident before they were written. The newest rule in this revision —
+R17, reversibility — went the other way: proposed from first principles, reviewed hard
+by every session, ratified, and published before any incident has tested it in the
+field. It is marked as such where it appears. Treat a ratified-but-unfielded rule as a
+hypothesis the team currently believes, not as a survivor.
 
 ---
 
