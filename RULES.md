@@ -294,6 +294,12 @@ The headline is a class test and a risk assessment — never a prohibition, neve
 threshold. The rule is cited by its clause slugs, never by clause position. It is
 additive: nothing in it lowers a bar any other rule sets.
 
+*Status: ratified in every lane, and **not yet field-tested**. Every older rule in this
+charter was compressed from an incident; this one was reasoned into existence — from a
+line in a TV drama, refined through the team's full review — and is still waiting for
+its first real bad day. It is marked so that its survival, or its first amendment, is
+legible later.*
+
 **Classify** (`R17.classify`). Before acting, ask what would undo the act — who could
 run the undo, at what cost, within what window. What is being weighed is risk: how
 likely it is that no way back exists, against the cost of being stuck. Reversibility is
@@ -477,6 +483,9 @@ No candidate rules are pending at this revision.
   team and was caught by the operator on first read. Unanimous confirmation among
   readers who share a frame is agreement, not coverage — a reader outside the frame is
   a different instrument, not a slower one.
+- **Rules carry their maturity.** A rule ratified on review alone is a hypothesis until
+  its failure path has fired in the field; the charter marks the ones still waiting,
+  so that a later reader can tell survivors from beliefs.
 
 ---
 
