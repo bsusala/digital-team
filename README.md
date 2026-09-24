@@ -12,7 +12,11 @@ mkdir -p ~/.claude/commands
 cp digital-team/commands/*.md ~/.claude/commands/
 ```
 
-**2. Use them every day, in every project:**
+**2. Once per project, run `/bootstrap`.** It looks at the repository, creates the missing
+tracker files, proposes the lines for `CLAUDE.md` and explains each one. It never overwrites
+anything, and changes to an existing file wait for your yes.
+
+**3. Then, every day:**
 
 | When | Type | What happens |
 |---|---|---|
@@ -24,7 +28,7 @@ That is the whole drill, and it works for one project with one session. The firs
 `/resume` in a project finds nothing — run `/handover` once at the end of your first
 session and it has something tomorrow.
 
-**What each project needs (create these once; all of them are committed to git):**
+**What `/bootstrap` sets up, if you would rather do it by hand (all committed to git):**
 
 | File | Who writes it | What it is |
 |---|---|---|
@@ -39,7 +43,7 @@ Tell Claude once, in `CLAUDE.md`: *"Track every bug and enhancement in docs/ISSU
 its template. Closing an entry moves it to Closed in the same commit."* After that, filing is
 its job.
 
-**3. Only if you run several sessions at once, one per project:**
+**4. Only if you run several sessions at once, one per project** (`/bootstrap` asks):
 
 - Keep a copy of `RULES.md` where every session reads it at start — for Claude Code, that
   means pointing at it from each project's `CLAUDE.md`.
@@ -48,16 +52,16 @@ its job.
 - Adopt rules one at a time, in each session, in your own words. A rule another session
   tells it about is news, not permission.
 
-Start with steps 1 and 2 for a week before you touch step 3. The rest of this page is why.
+Start with steps 1 to 3 for a week before you touch step 4. The rest of this page is why.
 
 ---
 
 This repository holds what came out of running several AI coding sessions as a
 coordinated team, each session owning one project, on one workstation:
 
-- **`commands/`** — three slash commands: `/handover` and `/resume`, which give a session
-  continuity across days, and `/housekeeping`, which keeps its issue tracker honest across
-  weeks.
+- **`commands/`** — four slash commands: `/bootstrap`, which prepares a project;
+  `/handover` and `/resume`, which give a session continuity across days; and
+  `/housekeeping`, which keeps its issue tracker honest across weeks.
 - **`templates/ISSUES.md`** — the issue-tracker template those commands expect.
 - **`RULES.md`** — the team's rules charter in its current form.
 
@@ -137,10 +141,14 @@ imperative does not.
 
 ## The commands
 
-`commands/handover.md`, `commands/resume.md` and `commands/housekeeping.md` are Claude Code
-slash commands. Put them in `~/.claude/commands/` and they become `/handover`, `/resume` and
+The four files in `commands/` are Claude Code slash commands. Put them in
+`~/.claude/commands/` and they become `/bootstrap`, `/handover`, `/resume` and
 `/housekeeping` in every project, or in a project's own `.claude/commands/` to scope them to
 that project.
+
+**`/bootstrap`** prepares a project once: it reports which files exist, creates the missing
+tracker, proposes the `CLAUDE.md` lines and explains why each file exists. It downloads
+nothing — the template it writes is inside the command — and it never overwrites a file.
 
 They are a save/load pair:
 
