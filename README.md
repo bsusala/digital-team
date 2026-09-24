@@ -3,8 +3,9 @@
 This repository holds two things that came out of running several AI coding sessions as
 a coordinated team, each session owning one project, on one workstation:
 
-- **`commands/`** — two slash commands, `/handover` and `/resume`, that give a session
-  continuity across days.
+- **`commands/`** — three slash commands: `/handover` and `/resume`, which give a session
+  continuity across days, and `/housekeeping`, which keeps its issue tracker honest across
+  weeks.
 - **`RULES.md`** — the team's rules charter in its current form.
 
 Take what is useful. Please read the disclaimers first; they are not boilerplate.
@@ -36,11 +37,12 @@ absence, and several corrections to the operator's own drafts came from the sess
 That is worth knowing before you read them as instructions handed down to a tool.
 
 **5. Rules differ in age, and age here means service, not calendar.** Most clauses were
-paid for by an incident before they were written. The newest rule in this revision —
-R17, reversibility — went the other way: proposed from first principles, reviewed hard
-by every session, ratified, and published before any incident has tested it in the
-field. It is marked as such where it appears. Treat a ratified-but-unfielded rule as a
-hypothesis the team currently believes, not as a survivor.
+paid for by an incident before they were written. R17, reversibility, went the other way:
+proposed from first principles, reviewed hard by every session, ratified, and published
+before any incident had tested it in the field. It is marked as such where it appears.
+Treat a ratified-but-unfielded rule as a hypothesis the team currently believes, not as a
+survivor. This revision is also the first the team has **settled and frozen**: its final
+review changed wording only, never shape, so new rules now wait for a newly declared review.
 
 ---
 
@@ -82,9 +84,10 @@ imperative does not.
 
 ## The commands
 
-`commands/handover.md` and `commands/resume.md` are Claude Code slash commands. Put them
-in `~/.claude/commands/` and they become `/handover` and `/resume` in every project, or
-in a project's own `.claude/commands/` to scope them to that project.
+`commands/handover.md`, `commands/resume.md` and `commands/housekeeping.md` are Claude Code
+slash commands. Put them in `~/.claude/commands/` and they become `/handover`, `/resume` and
+`/housekeeping` in every project, or in a project's own `.claude/commands/` to scope them to
+that project.
 
 They are a save/load pair:
 
@@ -96,6 +99,15 @@ They are a save/load pair:
 
 They auto-detect project type (Rust, Node, Python, PHP) for the version line and work in
 any repository. Neither depends on the rules; they are useful on their own.
+
+**`/housekeeping`** is the weekly read of `docs/ISSUES.md`. It checks the tracker's own
+structure first (every entry has a heading, every status comes from a closed set, status
+agrees with section), then checks each open entry against the code and the history: work
+that shipped but was never closed, parked items whose trigger has fired, re-ask dates that
+passed, work that was never filed. It applies the reversible fixes, lists the ones that need
+the operator's word, and stamps the run as a UTC instant so the next one knows when it is
+due. It does not require the rules either, though it speaks the charter's vocabulary for
+dispositions.
 
 The habit matters more than the files. Ending a working session with `/handover` and
 starting the next with `/resume` is what turns a chat into a colleague — the session that
