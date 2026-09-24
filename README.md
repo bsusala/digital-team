@@ -1,11 +1,64 @@
 # A working charter for a digital team
 
-This repository holds two things that came out of running several AI coding sessions as
-a coordinated team, each session owning one project, on one workstation:
+## TL;DR — what to actually do
+
+You need [Claude Code](https://claude.com/claude-code) and a project in a git repository.
+
+**1. Install the commands (once, two minutes):**
+
+```bash
+git clone https://github.com/bsusala/digital-team.git
+mkdir -p ~/.claude/commands
+cp digital-team/commands/*.md ~/.claude/commands/
+```
+
+**2. Use them every day, in every project:**
+
+| When | Type | What happens |
+|---|---|---|
+| You open a session | `/resume` | Claude reads where you left off and tells you: done, in progress, next. |
+| You are about to close it | `/handover` | Claude writes `docs/CONTINUATION.md`: what changed, what is open, what comes next. Commit it. |
+| Once a week | `/housekeeping` | Claude checks `docs/ISSUES.md` against the code: closes what shipped, files what was never tracked, flags what is stuck. |
+
+That is the whole drill, and it works for one project with one session. The first
+`/resume` in a project finds nothing — run `/handover` once at the end of your first
+session and it has something tomorrow.
+
+**What each project needs (create these once; all of them are committed to git):**
+
+| File | Who writes it | What it is |
+|---|---|---|
+| `CLAUDE.md` | you | The project's standing instructions — what it is, how to build and test it, what never to do. Claude Code reads it at every session start. |
+| `docs/ISSUES.md` | Claude, as you work | The tracker: every bug, enhancement and chore, open or closed. Start from [`templates/ISSUES.md`](templates/ISSUES.md). `/housekeeping` needs it. |
+| `docs/CONTINUATION.md` | `/handover` | Where the last session stopped. Never edit it by hand; regenerate it. |
+| `CHANGELOG.md` | Claude, at each release | What changed, per version. Optional, but `/handover` and `/resume` read it when it exists. |
+| `docs/ROADMAP.md` | you | Optional. The longer-term direction; it should cite issue ids rather than keep its own task list. |
+| `docs/.housekeeping` | `/housekeeping` | One line: when the last full reconciliation ran. |
+
+Tell Claude once, in `CLAUDE.md`: *"Track every bug and enhancement in docs/ISSUES.md, using
+its template. Closing an entry moves it to Closed in the same commit."* After that, filing is
+its job.
+
+**3. Only if you run several sessions at once, one per project:**
+
+- Keep a copy of `RULES.md` where every session reads it at start — for Claude Code, that
+  means pointing at it from each project's `CLAUDE.md`.
+- Pick one session as the **pilot**: it keeps a shared log and passes findings between
+  the others. It never approves anything — only you do.
+- Adopt rules one at a time, in each session, in your own words. A rule another session
+  tells it about is news, not permission.
+
+Start with steps 1 and 2 for a week before you touch step 3. The rest of this page is why.
+
+---
+
+This repository holds what came out of running several AI coding sessions as a
+coordinated team, each session owning one project, on one workstation:
 
 - **`commands/`** — three slash commands: `/handover` and `/resume`, which give a session
   continuity across days, and `/housekeeping`, which keeps its issue tracker honest across
   weeks.
+- **`templates/ISSUES.md`** — the issue-tracker template those commands expect.
 - **`RULES.md`** — the team's rules charter in its current form.
 
 Take what is useful. Please read the disclaimers first; they are not boilerplate.
