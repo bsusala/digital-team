@@ -67,6 +67,9 @@ coordinated team, each session owning one project, on one workstation:
 
 Take what is useful. Please read the disclaimers first; they are not boilerplate.
 
+The story behind it, in the order it happened, is a series of articles:
+[susala.eu/digital-team](https://susala.eu/digital-team/).
+
 ---
 
 ## Five disclaimers
