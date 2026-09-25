@@ -2,7 +2,9 @@
 
 ## TL;DR — what to actually do
 
-You need [Claude Code](https://claude.com/claude-code) and a project in a git repository.
+You need [Claude Code](https://claude.com/claude-code) and a project in a git repository. New to Linux, the
+terminal or git? Start with [Stage 0 of the setup guide](SETUP.md#stage-0--the-workstation) — installing
+Ubuntu, the tools and Claude Code, step by step.
 
 **1. Install the commands (once, two minutes):**
 
