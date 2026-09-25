@@ -2,12 +2,148 @@
 
 A how-to, in the order it is worth doing. Each stage works on its own; stop at the one that fits.
 
+- **Stage 0 — the workstation.** A Linux machine with Claude Code and git. Skip it if you have one.
 - **Stage 1 — one project, one session.** Continuity across days. Most of the value.
 - **Stage 2 — a team.** Several long-lived sessions, one per project, one pilot, one charter.
 - **Stage 3 — a guard underneath.** Every command every session runs passes a deterministic check.
 
 The diagrams in `diagrams/` show the shape: the team, how authority and information travel, a finding's life,
 a session's life.
+
+---
+
+## Stage 0 — the workstation
+
+This is the setup our team runs on, written for someone who has used computers for years but never Linux.
+If you already have a Linux or macOS machine with a terminal you are comfortable in, skip to Stage 1.
+
+### Why Linux
+
+The sessions work by running ordinary commands in a terminal - reading files, running tests, using git - and
+the team's hooks are small shell scripts. Linux (and macOS, which is close) runs all of that natively. On
+Windows it works inside WSL, a Linux environment built into Windows (see the note at the end of this stage).
+
+### The machine
+
+Any laptop or desktop from the last several years. Claude Code itself needs 4 GB of RAM; 16 GB is
+comfortable once several sessions run side by side. You do not need a powerful machine - the thinking happens
+on Anthropic's side; your machine runs the commands.
+
+### 1. Install Ubuntu
+
+We use **Ubuntu 24.04 LTS** ("LTS" means long-term support: security updates for years, no surprises).
+
+1. Download the desktop image from [ubuntu.com/download/desktop](https://ubuntu.com/download/desktop).
+2. Write it to a USB stick. From Windows or macOS, [balenaEtcher](https://etcher.balena.io/) is the simplest
+   tool; from an existing Ubuntu, use the built-in *Startup Disk Creator*.
+3. Boot from the stick and follow the installer. If this machine will do nothing else, "Erase disk and install
+   Ubuntu" is the straightforward choice. Pick a strong password: you will type it for administrative commands.
+
+### 2. Meet the terminal
+
+Open it with **Ctrl+Alt+T**. Everything below is typed there, one line at a time, followed by Enter. The few
+commands worth knowing on day one:
+
+| Command | What it does |
+|---|---|
+| `pwd` | shows which folder you are in |
+| `ls` | lists the files in it |
+| `cd Projects` | moves into the folder `Projects` (`cd ..` goes back up, `cd` alone goes home) |
+| `mkdir name` | creates a folder |
+| `cat file` | prints a file |
+| Ctrl+C | stops whatever is running |
+
+`sudo` in front of a command runs it as administrator and asks for your password. Nothing appears on screen
+while you type the password; that is normal.
+
+### 3. Update the system and install the tools
+
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y git jq curl
+```
+
+`git` keeps the history of every project, `jq` is used by the team hooks, `curl` downloads files.
+
+### 4. Install Claude Code
+
+The official installer (it needs neither Node.js nor npm):
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+This downloads a script from Anthropic and runs it. If you prefer to read a script before running it - a good
+habit - download it first with `curl -fsSL https://claude.ai/install.sh -o install.sh`, read it with
+`less install.sh`, then run `bash install.sh`.
+
+Open a **new** terminal, then check the installation:
+
+```bash
+claude --version
+claude doctor
+```
+
+### 5. Sign in
+
+```bash
+claude
+```
+
+A browser window opens; sign in with your Claude account. You need a subscription that includes Claude Code
+(the Pro or Max plans), or Console credentials. Once it says "Login successful" you are in. Type `/exit` to
+leave for now. Claude Code updates itself; `claude update` forces an update.
+
+### 6. Tell git who you are
+
+Every commit records its author. Once:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+git config --global init.defaultBranch main
+```
+
+### 7. Make a home for your projects
+
+One folder for everything, one folder per project inside it, and every project a git repository:
+
+```bash
+mkdir -p ~/Projects/my-first-project
+cd ~/Projects/my-first-project
+git init
+```
+
+An existing project you have elsewhere: copy it into `~/Projects/` and run `git init` inside it, or clone it
+with `git clone <address>` if it already lives in a git service.
+
+### 8. Keep a second copy from day one
+
+A single laptop is a single point of failure. Both options below need the project to have at least one commit
+(`git add -A && git commit -m "First commit"`; after Stage 1, every `/handover` gives you another). Two simple
+options:
+
+- **A private repository** on a git hosting service (GitHub, GitLab, Codeberg). Create an empty private
+  repository there, then in the project: `git remote add origin <its address>` and `git push -u origin main`.
+- **A USB drive**, if you would rather keep everything offline. With the drive mounted:
+  `git clone --bare ~/Projects/my-first-project /media/$USER/<drive>/my-first-project.git`, then in the
+  project `git remote add usb /media/$USER/<drive>/my-first-project.git` and, after each working day,
+  `git push usb main`.
+
+Whichever you choose, check now and then that the copy really has your latest work - a push that failed looks
+exactly like one that succeeded until you look.
+
+### Windows and macOS
+
+- **Windows:** install WSL (in PowerShell as administrator: `wsl --install`), which gives you Ubuntu inside
+  Windows; then follow this stage from step 2 inside the Ubuntu terminal. Claude Code also has a native Windows
+  installer (`irm https://claude.ai/install.ps1 | iex` in PowerShell), but the team hooks are shell scripts, so
+  WSL is the smoother path.
+- **macOS:** open Terminal and use the same installer (`curl -fsSL https://claude.ai/install.sh | bash`), or
+  Homebrew (`brew install --cask claude-code`). Install `git` and `jq` with Homebrew (`brew install git jq`).
+  Everything else in this guide applies as written.
+
+Now go to Stage 1.
 
 ---
 
