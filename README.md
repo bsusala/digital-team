@@ -43,14 +43,9 @@ Tell Claude once, in `CLAUDE.md`: *"Track every bug and enhancement in docs/ISSU
 its template. Closing an entry moves it to Closed in the same commit."* After that, filing is
 its job.
 
-**4. Only if you run several sessions at once, one per project** (`/bootstrap` asks):
-
-- Keep a copy of `RULES.md` where every session reads it at start — for Claude Code, that
-  means pointing at it from each project's `CLAUDE.md`.
-- Pick one session as the **pilot**: it keeps a shared log and passes findings between
-  the others. It never approves anything — only you do.
-- Adopt rules one at a time, in each session, in your own words. A rule another session
-  tells it about is news, not permission.
+**4. Only if you run several sessions at once, one per project** (`/bootstrap` asks): follow
+[`SETUP.md`](SETUP.md) — lanes, a pilot, a shared log, the charter, the hooks. Already running the
+v2 charter? [`MIGRATION.md`](MIGRATION.md).
 
 Start with steps 1 to 3 for a week before you touch step 4. The rest of this page is why.
 
@@ -59,16 +54,37 @@ Start with steps 1 to 3 for a week before you touch step 4. The rest of this pag
 This repository holds what came out of running several AI coding sessions as a
 coordinated team, each session owning one project, on one workstation:
 
-- **`commands/`** — four slash commands: `/bootstrap`, which prepares a project;
-  `/handover` and `/resume`, which give a session continuity across days; and
-  `/housekeeping`, which keeps its issue tracker honest across weeks.
-- **`templates/ISSUES.md`** — the issue-tracker template those commands expect.
-- **`RULES.md`** — the team's rules charter in its current form.
+| Path | What it is |
+|---|---|
+| `commands/` | Four slash commands: `/bootstrap` prepares a project; `/handover` and `/resume` give a session continuity across days; `/housekeeping` keeps its issue tracker honest across weeks. |
+| `SETUP.md` | How to set up a team, in stages: one session, a team, a guard underneath. |
+| `MIGRATION.md` | Moving an existing team from the v2 charter to v3. |
+| `RULES.md` | The team's charter — settled and frozen at this revision. |
+| `hooks/` | Three Claude Code hooks that wire two rules into mechanism, with self-tests. |
+| `templates/` | The issue tracker, the CLAUDE.md team block, the team log. |
+| `diagrams/` | The team's shape, how authority travels, a finding's life, a session's life. |
 
 Take what is useful. Please read the disclaimers first; they are not boilerplate.
 
 The story behind it, in the order it happened, is a series of articles:
 [susala.eu/digital-team](https://susala.eu/digital-team/).
+
+---
+
+## The shape of it
+
+![A digital team: one operator, one pilot, seven lanes, one guard](diagrams/1-topology.png)
+
+Each project has one Claude session that owns it for weeks — its own memory, tracker and history. The
+sessions coordinate through a pilot that keeps a shared log and has no authority. They follow a written
+charter that grew one incident at a time. And every command any of them runs passes through a guard that
+cannot be argued with, because it does not reason.
+
+![Authority and information travel on different roads](diagrams/2-authority.png)
+
+The one rule the rest depends on: **only the operator authorizes, and only inside each session.** Sessions
+tell each other things; they never approve things for each other. A relayed "the operator approved this"
+is a claim.
 
 ---
 
@@ -182,9 +198,9 @@ what the rules later become possible to write down comes from having that record
 
 ## What is deliberately not here
 
-The team's own operational records — the daily ledger, the adoption state of each rule in
-each lane, the security intel logs, the incident write-ups the rules were compressed
-from. Those are working files about real infrastructure and real clients, and they are
+The team's own operational records — our daily ledger (its template is here, the ledger is
+not), the adoption state of each rule in each lane, the security intel logs, the incident
+write-ups the rules were compressed from. Those are working files about real infrastructure and real clients, and they are
 not ours to publish. Their absence is also the point of the warning above: the part that
 is missing from this repository is most of what makes the part that is here work.
 
