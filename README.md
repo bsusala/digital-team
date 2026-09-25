@@ -86,6 +86,14 @@ The one rule the rest depends on: **only the operator authorizes, and only insid
 tell each other things; they never approve things for each other. A relayed "the operator approved this"
 is a claim.
 
+That is not the same as the sessions waiting for instructions. Inside its lane a session decides nearly
+everything itself — what to build and how, what to test, what a finding means and what happens to it — and
+between lanes they review and correct each other, the pilot included. What reaches the operator is the short
+list of acts that cannot be taken back or that leave a lane, each arriving as a four-line ask with a
+recommendation. In our team that recommendation is taken almost every time. The operator still reads every
+ask: agreeing almost always is also what a rubber stamp feels like, and the operator's read is a different
+instrument from the sessions' own.
+
 ---
 
 ## Five disclaimers
