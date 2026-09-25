@@ -1,0 +1,8 @@
+# due-stamps.local — one periodic obligation per line, TAB-separated:
+# <label>	<stamp path>	<period in hours>	[<anchor ERE>]
+# Paths are absolute or start with ~ (relative paths are not resolved).
+# The stamp file holds a UTC instant written by the routine itself: date -u +%FT%H:%MZ
+Security sweep	~/.config/myteam/lanes/myproject/last-sweep	24
+Housekeeping	~/code/myproject/docs/.housekeeping	168
+# A stamp kept inside a log: name the line that records a full run.
+# Security sweep	~/code/myproject/docs/security-log.md	24	^Swept:
