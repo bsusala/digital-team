@@ -3,8 +3,8 @@
 A how-to, in the order it is worth doing. Each stage works on its own; stop at the one that fits.
 
 - **Stage 0 — the workstation.** A Linux machine with Claude Code and git. Skip it if you have one.
-- **Stage 1 — one project, one session.** Continuity across days. Most of the value.
-- **Stage 2 — a team.** Several long-lived sessions, one per project, one pilot, one charter.
+- **Stage 1 — one department, one session.** Continuity across days. Most of the value.
+- **Stage 2 — a team.** Several long-lived sessions, one per department, one pilot, one charter.
 - **Stage 3 — a guard underneath.** Every command every session runs passes a deterministic check.
 
 The diagrams in `diagrams/` show the shape: the team, how authority and information travel, a finding's life,
@@ -48,7 +48,7 @@ commands worth knowing on day one:
 |---|---|
 | `pwd` | shows which folder you are in |
 | `ls` | lists the files in it |
-| `cd Projects` | moves into the folder `Projects` (`cd ..` goes back up, `cd` alone goes home) |
+| `cd Company` | moves into the folder `Company` (`cd ..` goes back up, `cd` alone goes home) |
 | `mkdir name` | creates a folder |
 | `cat file` | prints a file |
 | Ctrl+C | stops whatever is running |
@@ -63,7 +63,7 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install -y git jq curl
 ```
 
-`git` keeps the history of every project, `jq` is used by the team hooks, `curl` downloads files.
+`git` keeps the history of every department, `jq` is used by the team hooks, `curl` downloads files.
 
 ### 4. Install Claude Code
 
@@ -104,30 +104,30 @@ git config --global user.email "you@example.com"
 git config --global init.defaultBranch main
 ```
 
-### 7. Make a home for your projects
+### 7. Make a home for your company
 
-One folder for everything, one folder per project inside it, and every project a git repository:
+One folder for the business, one folder per department inside it, and every department a git repository:
 
 ```bash
-mkdir -p ~/Projects/my-first-project
-cd ~/Projects/my-first-project
+mkdir -p ~/Company/marketing
+cd ~/Company/marketing
 git init
 ```
 
-An existing project you have elsewhere: copy it into `~/Projects/` and run `git init` inside it, or clone it
+Work you already keep elsewhere: copy that folder into `~/Company/` and run `git init` inside it, or clone it
 with `git clone <address>` if it already lives in a git service.
 
 ### 8. Keep a second copy from day one
 
-A single laptop is a single point of failure. Both options below need the project to have at least one commit
+A single laptop is a single point of failure. Both options below need the department to have at least one commit
 (`git add -A && git commit -m "First commit"`; after Stage 1, every `/handover` gives you another). Two simple
 options:
 
 - **A private repository** on a git hosting service (GitHub, GitLab, Codeberg). Create an empty private
-  repository there, then in the project: `git remote add origin <its address>` and `git push -u origin main`.
+  repository there, then in the department's folder: `git remote add origin <its address>` and `git push -u origin main`.
 - **A USB drive**, if you would rather keep everything offline. With the drive mounted:
-  `git clone --bare ~/Projects/my-first-project /media/$USER/<drive>/my-first-project.git`, then in the
-  project `git remote add usb /media/$USER/<drive>/my-first-project.git` and, after each working day,
+  `git clone --bare ~/Company/marketing /media/$USER/<drive>/marketing.git`, then in the
+  department's folder `git remote add usb /media/$USER/<drive>/marketing.git` and, after each working day,
   `git push usb main`.
 
 Whichever you choose, check now and then that the copy really has your latest work - a push that failed looks
@@ -147,14 +147,14 @@ Now go to Stage 1.
 
 ---
 
-## Stage 1 — one project, one session
+## Stage 1 — one department, one session
 
-You need Claude Code and a project in git.
+You need Claude Code and a folder in git for one department of your business.
 
 1. **Install the commands once** (see the README): `/bootstrap`, `/resume`, `/handover`, `/housekeeping` in
    `~/.claude/commands/`.
-2. **Run `/bootstrap` in the project.** It reports what exists, creates `docs/ISSUES.md` (and `CHANGELOG.md`
-   if the project has versions), and proposes a working agreement for `CLAUDE.md`. It never overwrites.
+2. **Run `/bootstrap` in the department's folder.** It reports what exists, creates `docs/ISSUES.md` (and `CHANGELOG.md`
+   if it has versions, as software does), and proposes a working agreement for `CLAUDE.md`. It never overwrites.
 3. **Keep the drill:** `/resume` when you open a session, `/handover` before you close it (commit the result),
    `/housekeeping` once a week.
 4. **Moving between machines or places?** Exit the session and resume with `claude --continue` from the same
@@ -169,9 +169,10 @@ Stay here for a week before going further. The habit is what makes the rest poss
 
 ### 2.1 Decide the lanes
 
-A **lane** is one project owned by one session: its own repository, memory, tracker and boundaries. Work
-belonging to a lane stays in that lane. Good lanes are real, ongoing responsibilities — a product, a fleet of
-sites, an office network — not tasks.
+A **lane** is one department of the business, owned by one session: its own folder in git, memory, tracker and
+boundaries. Work
+belonging to a lane stays in that lane. Good lanes are real, ongoing responsibilities — a product, marketing, the books,
+the client websites, the office network — not tasks.
 
 Run Stage 1 in every lane first. A lane without its own continuity cannot carry its share of a team.
 
@@ -179,15 +180,15 @@ Run Stage 1 in every lane first. A lane without its own continuity cannot carry 
 
 The **pilot** coordinates: it keeps the shared log, relays findings between lanes, assembles the daily digest.
 It has **no authority** — it cannot approve anything the operator would have to approve. It can be a lane
-whose project is the team itself, or an existing lane that takes the role on. The pilot opens first and
+whose department is the team itself, or an existing lane that takes the role on. The pilot opens first and
 closes last.
 
 ### 2.3 Create the team-state repository
 
-One git repository, outside any lane, owned by the pilot. For example:
+One git repository, beside the departments, owned by the pilot. For example:
 
 ```
-~/team/                     # a git repository
+~/Company/team/             # a git repository
   RULES.md                  # the charter — copied from this repository at a tagged release
   team-log.md               # the shared ledger (start from templates/team-log.md)
   hooks/                    # the team hooks, copied from this repository's hooks/

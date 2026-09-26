@@ -14,8 +14,8 @@ them.
 
 ## Vocabulary
 
-- **Lane** — one project, owned by one session. A lane has its own repository, its own
-  memory, its own tracker, and its own boundaries. Work belonging to a lane stays there.
+- **Lane** — one department of the business, owned by one session. A lane has its own
+  repository, its own memory, its own tracker, and its own boundaries. Work belonging to a lane stays there.
 - **Session** — one running AI assistant, holding one lane.
 - **Pilot** — the lead session. Coordinates, keeps the team log, assembles what crosses
   lanes. Not an authority: the pilot cannot approve anything the operator would have to

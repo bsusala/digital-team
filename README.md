@@ -2,7 +2,7 @@
 
 ## TL;DR — what to actually do
 
-You need [Claude Code](https://claude.com/claude-code) and a project in a git repository. New to Linux, the
+You need [Claude Code](https://claude.com/claude-code) and a folder, kept in git, for one department of your business. New to Linux, the
 terminal or git? Start with [Stage 0 of the setup guide](SETUP.md#stage-0--the-workstation) — installing
 Ubuntu, the tools and Claude Code, step by step.
 
@@ -14,7 +14,7 @@ mkdir -p ~/.claude/commands
 cp digital-team/commands/*.md ~/.claude/commands/
 ```
 
-**2. Once per project, run `/bootstrap`.** It looks at the repository, creates the missing
+**2. Once per department, run `/bootstrap`.** It looks at the repository, creates the missing
 tracker files, proposes the lines for `CLAUDE.md` and explains each one. It never overwrites
 anything, and changes to an existing file wait for your yes.
 
@@ -26,15 +26,15 @@ anything, and changes to an existing file wait for your yes.
 | You are about to close it | `/handover` | Claude writes `docs/CONTINUATION.md`: what changed, what is open, what comes next. Commit it. |
 | Once a week | `/housekeeping` | Claude checks `docs/ISSUES.md` against the code: closes what shipped, files what was never tracked, flags what is stuck. |
 
-That is the whole drill, and it works for one project with one session. The first
-`/resume` in a project finds nothing — run `/handover` once at the end of your first
+That is the whole drill, and it works for one department with one session. The first
+`/resume` in a new department finds nothing — run `/handover` once at the end of your first
 session and it has something tomorrow.
 
 **What `/bootstrap` sets up, if you would rather do it by hand (all committed to git):**
 
 | File | Who writes it | What it is |
 |---|---|---|
-| `CLAUDE.md` | you | The project's standing instructions — what it is, how to build and test it, what never to do. Claude Code reads it at every session start. |
+| `CLAUDE.md` | you | The department's standing instructions — what it is, how to build and test it, what never to do. Claude Code reads it at every session start. |
 | `docs/ISSUES.md` | Claude, as you work | The tracker: every bug, enhancement and chore, open or closed. Start from [`templates/ISSUES.md`](templates/ISSUES.md). `/housekeeping` needs it. |
 | `docs/CONTINUATION.md` | `/handover` | Where the last session stopped. Never edit it by hand; regenerate it. |
 | `CHANGELOG.md` | Claude, at each release | What changed, per version. Optional, but `/handover` and `/resume` read it when it exists. |
@@ -45,7 +45,7 @@ Tell Claude once, in `CLAUDE.md`: *"Track every bug and enhancement in docs/ISSU
 its template. Closing an entry moves it to Closed in the same commit."* After that, filing is
 its job.
 
-**4. Only if you run several sessions at once, one per project** (`/bootstrap` asks): follow
+**4. Only if you run several sessions at once, one per department** (`/bootstrap` asks): follow
 [`SETUP.md`](SETUP.md) — lanes, a pilot, a shared log, the charter, the hooks. Already running the
 v2 charter? [`MIGRATION.md`](MIGRATION.md).
 
@@ -54,11 +54,11 @@ Start with steps 1 to 3 for a week before you touch step 4. The rest of this pag
 ---
 
 This repository holds what came out of running several AI coding sessions as a
-coordinated team, each session owning one project, on one workstation:
+coordinated team, each session owning one department of the business, on one workstation:
 
 | Path | What it is |
 |---|---|
-| `commands/` | Four slash commands: `/bootstrap` prepares a project; `/handover` and `/resume` give a session continuity across days; `/housekeeping` keeps its issue tracker honest across weeks. |
+| `commands/` | Four slash commands: `/bootstrap` prepares a department; `/handover` and `/resume` give a session continuity across days; `/housekeeping` keeps its issue tracker honest across weeks. |
 | `SETUP.md` | How to set up a team, in stages: one session, a team, a guard underneath. |
 | `MIGRATION.md` | Moving an existing team from the v2 charter to v3. |
 | `RULES.md` | The team's charter — settled and frozen at this revision. |
@@ -77,7 +77,7 @@ The story behind it, in the order it happened, is a series of articles:
 
 ![A digital team: one operator, one pilot, seven lanes, one guard](diagrams/1-topology.png)
 
-Each project has one Claude session that owns it for weeks — its own memory, tracker and history. The
+Each department has one Claude session that owns it for weeks — its own memory, tracker and history. The
 sessions coordinate through a pilot that keeps a shared log and has no authority. They follow a written
 charter that grew one incident at a time. And every command any of them runs passes through a guard that
 cannot be argued with, because it does not reason.
@@ -172,22 +172,22 @@ imperative does not.
 
 The four files in `commands/` are Claude Code slash commands. Put them in
 `~/.claude/commands/` and they become `/bootstrap`, `/handover`, `/resume` and
-`/housekeeping` in every project, or in a project's own `.claude/commands/` to scope them to
-that project.
+`/housekeeping` in every folder, or in one department's own `.claude/commands/` to scope them to
+that department.
 
-**`/bootstrap`** prepares a project once: it reports which files exist, creates the missing
+**`/bootstrap`** prepares a department once: it reports which files exist, creates the missing
 tracker, proposes the `CLAUDE.md` lines and explains why each file exists. It downloads
 nothing — the template it writes is inside the command — and it never overwrites a file.
 
 They are a save/load pair:
 
-- **`/handover`** reads the project's state — manifest, changelog, git log, open issues,
+- **`/handover`** reads the department's state — manifest, changelog, git log, open issues,
   memory — and writes `docs/CONTINUATION.md`: what was done, what is in progress, what
   comes next, which decisions were made and why.
 - **`/resume`** reads that document back at the start of the next session and reports
   where things stand.
 
-They auto-detect project type (Rust, Node, Python, PHP) for the version line and work in
+They detect the kind of software project (Rust, Node, Python, PHP) for the version line and work in
 any repository. Neither depends on the rules; they are useful on their own.
 
 **`/housekeeping`** is the weekly read of `docs/ISSUES.md`. It checks the tracker's own
