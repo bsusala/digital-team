@@ -11,7 +11,7 @@ fail at exactly the moment they exist for, so the moment is wired instead.
 
 None of them blocks anything. A hook is a trigger, not an implementation: the session still does the work.
 
-## Install, per project
+## Install, per department
 
 ```bash
 mkdir -p .claude/hooks
@@ -20,7 +20,7 @@ cp hooks/r9-trigger-selftest.sh hooks/d2d3-selftest.sh .claude/hooks/
 chmod +x .claude/hooks/*.sh
 ```
 
-Then merge `settings-hooks.json` into the project's `.claude/settings.json` (all four events; the scripts
+Then merge `settings-hooks.json` into the department folder's `.claude/settings.json` (all four events; the scripts
 are wired more than once on purpose). Optionally:
 
 - `.claude/hooks/team.conf` — copy `team.conf.example` and set `PILOT_NAME` if you run a team.
