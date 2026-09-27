@@ -69,6 +69,8 @@ run "$(j "ok, let's wrap up" c1)" >/dev/null; run "$(j "" c1 SessionEnd)" >/dev/
 lastlog | grep -q "trigger_fired=yes" && ok "run 1 with a close phrase → yes" || bad "run 1" "$(lastlog)"
 run "$(j "just more work" c1)" >/dev/null; run "$(j "" c1 SessionEnd)" >/dev/null
 lastlog | grep -q "trigger_fired=no" && ok "run 2 of the same id without one → no" || bad "run 2 cumulative" "$(lastlog)"
+run "$(j "time to close the session" i1)" >/dev/null; run "$(j "" i2 SessionEnd)" >/dev/null; run "$(j "" i1 SessionEnd)" >/dev/null
+lastlog | grep -q "trigger_fired=yes" && ok "another session's SESSION-END interleaved does not end this run → yes" || bad "interleaved end" "$(lastlog)"
 
 echo "== jq-absent (coreutils present, jq removed) =="
 [ -x "$NOJQ/bash" ] && ! [ -e "$NOJQ/jq" ] || bad "harness" "nojq dir wrong"
