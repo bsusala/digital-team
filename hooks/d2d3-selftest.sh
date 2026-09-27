@@ -57,6 +57,8 @@ printf '2026-09-24T09:00:00Z\tA\tMATCH\twrap up\n2026-09-24T09:05:00Z\tA\tSESSIO
 out="$(warn A)"; printf '%s' "$out" | grep -q "ended WITHOUT a close (2026-09-24T10:01:00Z" && ok "runs are split at SESSION-END: the latest run is judged, not an earlier closed one" || bad "run split latest" "$out"
 printf '2026-09-24T09:00:00Z\tA\tNO-MATCH\tlen=3 peer=0\n2026-09-24T09:05:00Z\tA\tSESSION-END\treason=prompt_input_exit trigger_fired=no\n2026-09-24T10:00:00Z\tA\tMATCH\twrap up\n2026-09-24T10:01:00Z\tA\tSESSION-END\treason=prompt_input_exit trigger_fired=yes\n' > "$L"
 out="$(warn A)"; [ -z "$out" ] && ok "a closed latest run is silent even after an earlier unclosed run" || bad "run split closed" "$out"
+printf '2026-09-24T09:00:00Z\tA\tMATCH\twrap up\n2026-09-24T09:05:00Z\tA\tSESSION-END\treason=prompt_input_exit trigger_fired=yes\n2026-09-24T10:00:00Z\tA\tNO-MATCH\tlen=3 peer=0\n2026-09-24T10:01:00Z\tA\tSESSION-END\treason=prompt_input_exit trigger_fired=yes\n' > "$L"
+out="$(warn A)"; printf '%s' "$out" | grep -q "ended WITHOUT a close (2026-09-24T10:01:00Z" && ok "a stale cumulative trigger_fired=yes is not trusted: no close phrase in the run → warns" || bad "stale trigger_fired" "$out"
 printf '2026-09-24T10:00:00Z\tA\tNO-MATCH\tlen=3 peer=0\n2026-09-24T10:01:00Z\tA\tSESSION-END\treason=clear trigger_fired=no\n' > "$L"
 out="$(warn cur)"; [ -z "$out" ] && ok "reason=clear is not an unclosed exit" || bad "clear" "$out"
 printf '2026-09-24T10:00:00Z\tA\tNO-MATCH\tlen=3 peer=0\n' > "$L"
