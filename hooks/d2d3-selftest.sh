@@ -63,6 +63,7 @@ printf '2026-09-24T10:00:00Z\tA\tNO-MATCH\tlen=3 peer=0\n2026-09-24T10:01:00Z\tA
 out="$(warn cur)"; [ -z "$out" ] && ok "reason=clear is not an unclosed exit" || bad "clear" "$out"
 printf '2026-09-24T10:00:00Z\tA\tNO-MATCH\tlen=3 peer=0\n' > "$L"
 out="$(warn cur)"; printf '%s' "$out" | grep -q "NO SESSION-END record" && ok "missing SESSION-END warns" || bad "died" "$out"
+out="$(jq -nc '{hook_event_name:"SessionStart",session_id:"A",source:"compact"}' | R9_NOW=2000000000 bash "$D/r9-unclosed-warn.sh" 2>&1)"; [ -z "$out" ] && ok "source=compact is silent: the run has not ended" || bad "compact" "$out"
 printf '%s' "$out" | grep -q "may still be running" && bad "old session not live" "$out" || ok "an old session is not called live"
 out="$(warn cur "$(( $(date -u -d 2026-09-24T10:00:00Z +%s) + 300 ))")"; printf '%s' "$out" | grep -q "may still be running" && ok "a session seen 5 min ago may be live" || bad "live note" "$out"
 

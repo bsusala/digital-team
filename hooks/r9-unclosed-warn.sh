@@ -22,6 +22,8 @@ now="${R9_NOW:-$(date -u +%s)}"
 
 payload="$(cat 2>/dev/null || true)"
 current="$(printf '%s' "$payload" | jq -r '.session_id // ""' 2>/dev/null || true)"
+# A compaction restarts the context inside a run that has not ended: there is no previous run to judge.
+[ "$(printf '%s' "$payload" | jq -r '.source // ""' 2>/dev/null || true)" = "compact" ] && exit 0
 
 [ -f "$LOG" ] || exit 0
 
