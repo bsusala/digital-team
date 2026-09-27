@@ -64,6 +64,12 @@ run "$(j "" s2 SessionEnd)" >/dev/null
 run "$(j "" s9 SessionEnd)" >/dev/null
 lastlog | grep -q "trigger_fired=no" && ok "SessionEnd logs trigger_fired=no for a quiet session" || bad "SessionEnd quiet" "$(lastlog)"
 
+echo "== trigger_fired is per run, not per session id (--continue reuses the id) =="
+run "$(j "ok, let's wrap up" c1)" >/dev/null; run "$(j "" c1 SessionEnd)" >/dev/null
+lastlog | grep -q "trigger_fired=yes" && ok "run 1 with a close phrase → yes" || bad "run 1" "$(lastlog)"
+run "$(j "just more work" c1)" >/dev/null; run "$(j "" c1 SessionEnd)" >/dev/null
+lastlog | grep -q "trigger_fired=no" && ok "run 2 of the same id without one → no" || bad "run 2 cumulative" "$(lastlog)"
+
 echo "== jq-absent (coreutils present, jq removed) =="
 [ -x "$NOJQ/bash" ] && ! [ -e "$NOJQ/jq" ] || bad "harness" "nojq dir wrong"
 out="$(run_nojq "$(j "let's wrap up" s5)")"

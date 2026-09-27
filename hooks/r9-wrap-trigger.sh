@@ -57,7 +57,11 @@ if [ "$event" = "SessionEnd" ]; then
   reason="$(jqf '.reason')"; reason="${reason:-unknown}"
   # trigger_fired counts an OPERATOR fire (MATCH or MATCH-DEGRADED); a close phrase inside a peer message
   # (MATCH-PEER) is not the operator closing, so it is excluded on purpose.
-  fired=no; grep -qE "	$session	MATCH(-DEGRADED)?	" "$LOG" 2>/dev/null && fired=yes
+  # Counted over the current run only (the lines after the log's last SESSION-END): `claude --continue` reuses the
+  # session id, so a whole-log search would let an earlier closed run mark a later unclosed one "yes".
+  fired=no
+  awk -F'\t' -v s="$session" '$1 !~ /^#/ { if ($3 == "SESSION-END") hit = 0; else if ($2 == s && ($3 == "MATCH" || $3 == "MATCH-DEGRADED")) hit = 1 }
+    END { exit hit ? 0 : 1 }' "$LOG" 2>/dev/null && fired=yes
   log_line "SESSION-END" "reason=$reason trigger_fired=$fired"
   exit 0
 fi

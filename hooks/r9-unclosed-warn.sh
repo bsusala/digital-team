@@ -5,7 +5,8 @@
 # The previous RUN is judged, not the previous session id: `claude --continue` keeps the id, so a check keyed on
 # "the last id other than mine" would skip the run that just ended. At SessionStart this run has logged nothing yet,
 # so the log's last SESSION-END (any id) ends the previous run; a last line that is not a SESSION-END is a run that
-# died. A SESSION-END with reason=clear is a deliberate act and stays silent.
+# died. The run counts as closed only if a close phrase was matched inside it. A SESSION-END with reason=clear is a
+# deliberate act and stays silent.
 #
 # When it warns, it adds one piece of evidence: the latest commit touching docs/CONTINUATION.md inside that run's
 # window (+15 min), or "no handover commit in its window". The verdict does not depend on it — a session can commit
@@ -34,10 +35,12 @@ run="$(awk -F'\t' '$1 !~ /^#/ && $2 != "" {
     if (n == 0) exit
     if (ev[n] == "SESSION-END") { start = prevend + 1; state = "END\t" det[n] }
     else { start = lastend + 1; state = "OPEN" }
-    printf "%s\t%s\t%s\t%s", id[n], ts[start], ts[n], state
+    closed = "no"
+    for (i = start; i <= n; i++) if (ev[i] == "MATCH" || ev[i] == "MATCH-DEGRADED") closed = "yes"
+    printf "%s\t%s\t%s\t%s\t%s", id[n], ts[start], ts[n], closed, state
   }' "$LOG")"
 [ -n "$run" ] || exit 0
-IFS=$'\t' read -r prev first_seen last_seen state detail <<< "$run"
+IFS=$'\t' read -r prev first_seen last_seen closed state detail <<< "$run"
 end=""; [ "$state" = "END" ] && end="$last_seen	$detail"
 [ "$prev" = "$current" ] && prev="$prev (this session's previous run, continued)"
 
@@ -55,8 +58,10 @@ evidence() {
   else printf ' No handover commit in its window.'; fi
 }
 
+[ "$state" = "END" ] && [ "$closed" = "yes" ] && exit 0
+
 case "$end" in
-  *trigger_fired=yes*|*reason=clear*) exit 0 ;;
+  *reason=clear*) exit 0 ;;
   "")
     live=""
     seen_ts=0
