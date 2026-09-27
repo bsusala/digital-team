@@ -34,7 +34,7 @@ are wired more than once on purpose). Optionally:
 Run both self-tests from the installed directory and check the counts, not the colour:
 
 ```bash
-bash .claude/hooks/r9-trigger-selftest.sh .claude/hooks/r9-wrap-trigger.sh   # expect 38 passed, 0 failed
+bash .claude/hooks/r9-trigger-selftest.sh .claude/hooks/r9-wrap-trigger.sh   # expect 39 passed, 0 failed
 bash .claude/hooks/d2d3-selftest.sh .claude/hooks                             # expect 43 passed, 0 failed
 ```
 
