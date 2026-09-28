@@ -27,19 +27,27 @@ current="$(printf '%s' "$payload" | jq -r '.session_id // ""' 2>/dev/null || tru
 
 [ -f "$LOG" ] || exit 0
 
-# The previous run = the log lines after the second-to-last SESSION-END (any id) up to the last line. Fields out:
-# id <TAB> first instant <TAB> last instant <TAB> "END" + detail, or "OPEN" when the run never logged a SESSION-END.
+# The previous run = the most recent run that took at least one prompt. A run is one session id's lines up to that
+# id's own SESSION-END; another id's SESSION-END interleaved in the log does not end it. A run with no prompt line is
+# skipped: the background service's pre-started sessions log a bare SESSION-END when they shut down, and judging one
+# of those names a session nobody used. Fields out: id <TAB> first instant <TAB> last instant <TAB> closed <TAB>
+# "END" + detail, or "OPEN" when the run never logged a SESSION-END (it died, or is still running elsewhere).
 run="$(awk -F'\t' '$1 !~ /^#/ && $2 != "" {
-    n++; ts[n] = $1; id[n] = $2; ev[n] = $3; det[n] = $4
-    if ($3 == "SESSION-END") { prevend = lastend; lastend = n }
+    i++; id = $2
+    if ($3 != "SESSION-END") {
+      if (!(id in open)) { open[id] = 1; first[id] = $1; shut[id] = "no" }
+      last[id] = $1; pos[id] = i
+      if ($3 == "MATCH" || $3 == "MATCH-DEGRADED") shut[id] = "yes"
+    } else if (id in open) {
+      best = sprintf("%s\t%s\t%s\t%s\tEND\t%s", id, first[id], $1, shut[id], $4); bestpos = i
+      delete open[id]
+    }
   }
   END {
-    if (n == 0) exit
-    if (ev[n] == "SESSION-END") { start = prevend + 1; state = "END\t" det[n] }
-    else { start = lastend + 1; state = "OPEN" }
-    closed = "no"
-    for (i = start; i <= n; i++) if (ev[i] == "MATCH" || ev[i] == "MATCH-DEGRADED") closed = "yes"
-    printf "%s\t%s\t%s\t%s\t%s", id[n], ts[start], ts[n], closed, state
+    for (id in open) if (pos[id] > bestpos) {
+      best = sprintf("%s\t%s\t%s\t%s\tOPEN", id, first[id], last[id], shut[id]); bestpos = pos[id]
+    }
+    if (best != "") printf "%s", best
   }' "$LOG")"
 [ -n "$run" ] || exit 0
 IFS=$'\t' read -r prev first_seen last_seen closed state detail <<< "$run"
