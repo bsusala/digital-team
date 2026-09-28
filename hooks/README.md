@@ -22,7 +22,9 @@ chmod +x .claude/hooks/*.sh
 ```
 
 Then merge `settings-hooks.json` into the department folder's `.claude/settings.json` (all four events; the scripts
-are wired more than once on purpose). Optionally:
+are wired more than once on purpose). If your SessionStart already has an entry with a `matcher` such as
+`startup|resume|clear`, put `compact-nudge.sh` in an entry without one: a compaction arrives as `source=compact`, and
+a matcher that leaves it out means the nudge never runs. Optionally:
 
 - `.claude/hooks/team.conf` — copy `team.conf.example` and set `PILOT_NAME` if you run a team, and
   `COMPACT_NUDGE_AT` if the second compaction is too early or too late for you.
