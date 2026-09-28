@@ -62,7 +62,7 @@ coordinated team, each session owning one department of the business, on one wor
 | `SETUP.md` | How to set up a team, in stages: one session, a team, a guard underneath. |
 | `MIGRATION.md` | Moving an existing team from the v2 charter to v3. |
 | `RULES.md` | The team's charter — settled and frozen at this revision. |
-| `hooks/` | Three Claude Code hooks that wire two rules into mechanism, with self-tests. |
+| `hooks/` | Four Claude Code hooks that wire the session rules into mechanism, with self-tests. |
 | `templates/` | The issue tracker, the CLAUDE.md team block, the team log. |
 | `diagrams/` | The team's shape, how authority travels, a finding's life, a session's life. |
 

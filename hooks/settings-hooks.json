@@ -1,22 +1,63 @@
 {
   "hooks": {
     "UserPromptSubmit": [
-      { "hooks": [
-        { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/r9-wrap-trigger.sh\"", "timeout": 10 },
-        { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/due-check.sh\"", "timeout": 10 }
-      ] }
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/r9-wrap-trigger.sh\"",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/due-check.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
     ],
     "SessionEnd": [
-      { "hooks": [ { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/r9-wrap-trigger.sh\"", "timeout": 10 } ] }
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/r9-wrap-trigger.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
     ],
     "SessionStart": [
-      { "hooks": [
-        { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/due-check.sh\"", "timeout": 10 },
-        { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/r9-unclosed-warn.sh\"", "timeout": 10 }
-      ] }
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/due-check.sh\"",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/r9-unclosed-warn.sh\"",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/compact-nudge.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
     ],
     "Stop": [
-      { "hooks": [ { "type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/due-check.sh\"", "timeout": 10 } ] }
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/due-check.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
     ]
   }
 }

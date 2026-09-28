@@ -1,3 +1,6 @@
 # team.conf — read as plain data by the hooks, never executed.
 # The session that receives closing reports and relays between lanes.
 PILOT_NAME=pilot
+
+# From which compaction of one session on the compaction nudge speaks (default 2).
+COMPACT_NUDGE_AT=2

@@ -204,7 +204,7 @@ In each lane's own session:
    (the commit and digest of `RULES.md`) and the pilot's name filled in.
 2. **Install the hooks** (see `hooks/README.md`): copy them into `.claude/hooks/`, merge
    `settings-hooks.json` into `.claude/settings.json`, add `team.conf` with the pilot's name and
-   `due-stamps.local` with the lane's periodic obligations. Run both self-tests and check the counts.
+   `due-stamps.local` with the lane's periodic obligations. Run the three self-tests and check the counts.
 3. **Ratify the rules in that session, in your own words** — for example: *"I ratify the team charter at
    commit `<pin>` for this lane."* A rule the lane hears about from another session is news, not adoption.
    A lane may refuse or narrow a rule for its own reasons, and must say so outward.
@@ -226,6 +226,8 @@ only:
 ### 2.6 The daily rhythm
 
 - **Session start:** `/resume`. The hooks report anything due and whether the last run ended without a close.
+- **Long-lived sessions:** a department can run for days on one conversation. From the second compaction on,
+  a hook says so: at the next natural break, `/handover` and start a fresh session.
 - **Each lane's security sweep** (charter R10): the lane reads the advisory feeds of what it runs, gives every
   finding a disposition, and sends the pilot a one-line heartbeat — or its findings.
 - **The pilot's digest:** what crosses lanes, what is waiting on whom, what has aged.

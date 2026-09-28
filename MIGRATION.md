@@ -34,7 +34,7 @@ For a team already running the v2 charter (tags `v2` / `v2.1`). A fresh team sta
 **New tools**
 
 - `/bootstrap` and `/housekeeping` beside `/handover` and `/resume`.
-- `hooks/` — the R9 wrap trigger, the due-check and the unclosed-session warning, with self-tests.
+- `hooks/` — the R9 wrap trigger, the due-check, the unclosed-session warning and the compaction nudge, with self-tests.
 - `templates/` — the issue tracker, the CLAUDE.md team block, the team log.
 
 ## How to migrate, lane by lane
@@ -50,7 +50,7 @@ word in each lane moves that lane.
    that by reading the removed lines, not by counting them.
 3. **Each lane: move the pin, on the operator's word in that session.** Update the lane's team block in
    `CLAUDE.md` with the new commit and digest, and keep the old pin on record beside it.
-4. **Each lane: install the hooks** from `hooks/` and run both self-tests (39/0 and 47/0). If the lane
+4. **Each lane: install the hooks** from `hooks/` and run the three self-tests (39/0, 47/0 and 20/0). If the lane
    already runs its own versions, compare them against these first — two readers of the same log can
    disagree.
 5. **Each lane: ratify what is new, in the operator's words.** One act can cover the whole v3 text; a lane may
