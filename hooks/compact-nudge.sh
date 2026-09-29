@@ -11,6 +11,11 @@
 # installed; the record keeps counting if the transcript format changes. Age = first transcript timestamp, else the
 # first recorded compaction.
 #
+# The CURRENT compaction's boundary is written to the transcript after this hook runs (measured 2026-09-29: boundary
+# 00:47:16.301Z, the hook's attachments 00:47:16.224Z), so the transcript count is the PRIOR compactions and this one
+# is added. If the newest boundary is already within the last minute, it is this one and is not added twice. A newest
+# boundary whose instant does not parse is treated as prior (the nudge errs early, never silent).
+#
 # Configuration: .claude/hooks/team.conf, COMPACT_NUDGE_AT=<n> (default 2), read as data, never executed.
 # COMPACT_STATE_DIR and COMPACT_NOW (epoch seconds) are TEST-ONLY seams.
 
@@ -40,6 +45,13 @@ seen="$(grep -c . "$record" 2>/dev/null)"; seen="${seen:-0}"
 found=0; first=""
 if [ -n "$transcript" ] && [ -r "$transcript" ]; then
   found="$(grep -c '"subtype":"compact_boundary"' "$transcript" 2>/dev/null)"; found="${found:-0}"
+  newest="$(grep '"subtype":"compact_boundary"' "$transcript" 2>/dev/null | tail -1 \
+            | grep -o '"timestamp":"[0-9]\{4\}-[0-9][0-9]-[0-9][0-9]T[0-9:.]*Z"' | head -1 | cut -d'"' -f4)"
+  fresh=0
+  if [[ "$newest" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2} ]]; then
+    newest_ts="$(date -u -d "$newest" +%s 2>/dev/null)" && [ $(( now - newest_ts )) -ge -5 ] && [ $(( now - newest_ts )) -le 60 ] && fresh=1
+  fi
+  [ "$fresh" = 1 ] || found=$(( found + 1 ))
   first="$(grep -o -m1 '"timestamp":"[0-9]\{4\}-[0-9][0-9]-[0-9][0-9]T[0-9:.]*Z"' "$transcript" 2>/dev/null | cut -d'"' -f4)"
 fi
 count=$(( found > seen ? found : seen ))
