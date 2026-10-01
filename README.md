@@ -64,7 +64,7 @@ coordinated team, each session owning one department of the business, on one wor
 | `RULES.md` | The team's charter — settled and frozen at this revision. |
 | `hooks/` | Four Claude Code hooks that wire the session rules into mechanism, with self-tests. |
 | `templates/` | The issue tracker, the CLAUDE.md team block, the team log. |
-| `diagrams/` | The team's shape, how authority travels, a finding's life, a session's life. |
+| `diagrams/` | The team's shape, how authority travels, a session's life, a finding's life — each in a light and a dark version. |
 
 Take what is useful. Please read the disclaimers first; they are not boilerplate.
 
@@ -75,14 +75,20 @@ The story behind it, in the order it happened, is a series of articles:
 
 ## The shape of it
 
-![A digital team: one operator, one pilot, seven lanes, one guard](diagrams/1-topology.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/1-topology-dark.svg">
+  <img alt="A digital team: the operator, the pilot, the lanes, the guard" src="diagrams/1-topology-light.svg" width="541">
+</picture>
 
 Each department has one Claude session that owns it for weeks — its own memory, tracker and history. The
 sessions coordinate through a pilot that keeps a shared log and has no authority. They follow a written
 charter that grew one incident at a time. And every command any of them runs passes through a guard that
 cannot be argued with, because it does not reason.
 
-![Authority and information travel on different roads](diagrams/2-authority.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagrams/2-authority-dark.svg">
+  <img alt="Authority and information travel on different roads" src="diagrams/2-authority-light.svg" width="585">
+</picture>
 
 The one rule the rest depends on: **only the operator authorizes, and only inside each session.** Sessions
 tell each other things; they never approve things for each other. A relayed "the operator approved this"
@@ -203,6 +209,76 @@ The habit matters more than the files. Ending a working session with `/handover`
 starting the next with `/resume` is what turns a chat into a colleague — the session that
 greets you tomorrow knows what you did today, what went wrong, and what is next. Most of
 what the rules later become possible to write down comes from having that record at all.
+
+---
+
+## FAQ
+
+The same questions, with the rest of the recipe around them, are on the page:
+[susala.eu/digital-team — FAQ](https://susala.eu/digital-team/#faq).
+
+**Would my Digital Team steal my company and kill me?**
+
+No. It has no signature, no bank account and no ambition beyond its Issue tracker. It cannot approve anything,
+not even for another Department, and a Guard reads every command it runs and follows fixed rules that no
+argument changes. The most violent thing on record is the Guard refusing 405 commands in 19 days. The
+realistic risk is duller: that you stop reading its asks. Read them.
+
+**What does it cost?**
+
+A Claude subscription. Ours is 100 EUR a month plus 21% VAT: 121 EUR. For comparison, in Romania the most
+junior programmer or DevOps engineer takes home about 1,500 EUR a month net, which costs the company roughly
+1.8 times that once taxes are paid: about 2,700 EUR. In our experience the setup covers the work of three to
+five multidisciplinary IT colleagues:
+
+| Composition | Per month | Per year |
+|---|---|---|
+| 3 junior colleagues | 8,100 EUR | 97,200 EUR |
+| 5 junior colleagues | 13,500 EUR | 162,000 EUR |
+| the Digital Team | 121 EUR | 1,452 EUR |
+
+What it does not replace is the Human Operator.
+
+That person's time is the real cost, and the very reason the Digital Team works. Important note: don't dream
+of the stories you may read with clickbait titles: meaningful autonomous AI work is not yet there. You MUST
+operate the Digital Team. Don't dream naively. Own your Digital Team.
+
+**Do I need to be a programmer?**
+
+No, but you need to know your business well enough to judge a recommendation. The minimum mandatory role you
+have to act on is Product Owner, and adding Product Manager flavours is a clear advantage. The terminal can be
+learned; the [setup guide's Stage 0](SETUP.md#stage-0--the-workstation) starts from a blank computer.
+
+**Can it do something I did not approve?**
+
+Inside its own Department, yes: that is the delegation, and it is what saves your time. Anything that cannot be
+undone, or that leaves the Department, waits for your approval or decision, which you give in writing in that
+Department's own session.
+
+**What if it makes a mistake?**
+
+It will, sometimes, but it does not hide it, like humans do very often. So, a lane makes mistakes confidently.
+That is why findings are checked at the vendor's own source, fixes are read back from outside, and everything
+is in git. Most often, the mistake is promptly discovered during the task (this is Claude Code's magic) or
+before finishing the work, and is repaired on the go. While repairing, you will often notice bug discoveries,
+again on the go. Lanes repairing themselves on the go is stunning. Most of this behaviour is because the Team
+Rules Charter exists.
+
+**What happens to my data?**
+
+The sessions work through Claude, under the terms of your Claude plan. However, the Guard masks the secrets it
+recognises in command output before the model reads it, and the Team's Rules require every install from a
+public registry to be checked first. Safety first.
+
+**Am I locked in?**
+
+Mostly no. The Rules, the handovers, the trackers and the history are plain text files in git. They stay
+readable, and useful, without the Team.
+
+**Where do I begin?**
+
+With one Department and one session, for a week. See [TL;DR — what to actually do](#tldr--what-to-actually-do)
+above, or [Where to start](https://susala.eu/digital-team/#where-to-start) on the page.
 
 ---
 
