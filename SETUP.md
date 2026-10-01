@@ -7,8 +7,8 @@ A how-to, in the order it is worth doing. Each stage works on its own; stop at t
 - **Stage 2 — a team.** Several long-lived sessions, one per department, one pilot, one charter.
 - **Stage 3 — a guard underneath.** Every command every session runs passes a deterministic check.
 
-The diagrams in `diagrams/` show the shape: the team, how authority and information travel, a finding's life,
-a session's life.
+The diagrams in `diagrams/` show the shape: the team, how authority and information travel, a session's life,
+a finding's life.
 
 ---
 
