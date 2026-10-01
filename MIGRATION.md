@@ -50,7 +50,7 @@ word in each lane moves that lane.
    that by reading the removed lines, not by counting them.
 3. **Each lane: move the pin, on the operator's word in that session.** Update the lane's team block in
    `CLAUDE.md` with the new commit and digest, and keep the old pin on record beside it.
-4. **Each lane: install the hooks** from `hooks/` and run the three self-tests (39/0, 47/0 and 20/0). If the lane
+4. **Each lane: install the hooks** from `hooks/` and run the three self-tests (39/0, 47/0 and 24/0). If the lane
    already runs its own versions, compare them against these first — two readers of the same log can
    disagree.
 5. **Each lane: ratify what is new, in the operator's words.** One act can cover the whole v3 text; a lane may
