@@ -40,7 +40,7 @@ Run the three self-tests from the installed directory and check the counts, not 
 ```bash
 bash .claude/hooks/r9-trigger-selftest.sh .claude/hooks/r9-wrap-trigger.sh   # expect 39 passed, 0 failed
 bash .claude/hooks/d2d3-selftest.sh .claude/hooks                             # expect 47 passed, 0 failed
-bash .claude/hooks/compact-selftest.sh .claude/hooks                          # expect 20 passed, 0 failed
+bash .claude/hooks/compact-selftest.sh .claude/hooks                          # expect 24 passed, 0 failed
 ```
 
 A test's green counts only after its failure path has been made to fire: every suite includes cases that
