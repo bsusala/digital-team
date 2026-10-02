@@ -217,12 +217,14 @@ what the rules later become possible to write down comes from having that record
 The same questions, with the rest of the recipe around them, are on the page:
 [susala.eu/digital-team — FAQ](https://susala.eu/digital-team/#faq).
 
+
 **Would my Digital Team steal my company and kill me?**
 
 No. It has no signature, no bank account and no ambition beyond its Issue tracker. It cannot approve anything,
 not even for another Department, and a Guard reads every command it runs and follows fixed rules that no
 argument changes. The most violent thing on record is the Guard refusing 405 commands in 19 days. The
 realistic risk is duller: that you stop reading its asks. Read them.
+
 
 **What does it cost?**
 
@@ -243,17 +245,20 @@ That person's time is the real cost, and the very reason the Digital Team works.
 of the stories you may read with clickbait titles: meaningful autonomous AI work is not yet there. You MUST
 operate the Digital Team. Don't dream naively. Own your Digital Team.
 
+
 **Do I need to be a programmer?**
 
 No, but you need to know your business well enough to judge a recommendation. The minimum mandatory role you
 have to act on is Product Owner, and adding Product Manager flavours is a clear advantage. The terminal can be
 learned; the [setup guide's Stage 0](SETUP.md#stage-0--the-workstation) starts from a blank computer.
 
+
 **Can it do something I did not approve?**
 
 Inside its own Department, yes: that is the delegation, and it is what saves your time. Anything that cannot be
 undone, or that leaves the Department, waits for your approval or decision, which you give in writing in that
 Department's own session.
+
 
 **What if it makes a mistake?**
 
@@ -264,16 +269,19 @@ before finishing the work, and is repaired on the go. While repairing, you will 
 again on the go. Lanes repairing themselves on the go is stunning. Most of this behaviour is because the Team
 Rules Charter exists.
 
+
 **What happens to my data?**
 
 The sessions work through Claude, under the terms of your Claude plan. However, the Guard masks the secrets it
 recognises in command output before the model reads it, and the Team's Rules require every install from a
 public registry to be checked first. Safety first.
 
+
 **Am I locked in?**
 
 Mostly no. The Rules, the handovers, the trackers and the history are plain text files in git. They stay
 readable, and useful, without the Team.
+
 
 **Where do I begin?**
 
@@ -306,5 +314,4 @@ below is a legal formality; it is not a description of who wrote this.
 
 MIT — see `LICENSE`. Copy it, change it, publish your own version. The licence asks only
 that the copyright notice travel with substantial copies; beyond that, if you adapt this
-into something better suited to your own work, that is the intended outcome rather than a
-tolerated one.
+into something better suited to your own work, that is the intended outcome.
