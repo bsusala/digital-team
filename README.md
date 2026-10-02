@@ -1,6 +1,6 @@
 # A working charter for a digital team
 
-## TL;DR — what to actually do
+## TL;DR - what to actually do
 
 You need [Claude Code](https://claude.com/claude-code) and a folder, kept in git, for one department of your business. New to Linux, the
 terminal or git? Start with [Stage 0 of the setup guide](SETUP.md#stage-0--the-workstation) — installing
@@ -27,14 +27,14 @@ anything, and changes to an existing file wait for your yes.
 | Once a week | `/housekeeping` | Claude checks `docs/ISSUES.md` against the code: closes what shipped, files what was never tracked, flags what is stuck. |
 
 That is the whole drill, and it works for one department with one session. The first
-`/resume` in a new department finds nothing — run `/handover` once at the end of your first
+`/resume` in a new department finds nothing - run `/handover` once at the end of your first
 session and it has something tomorrow.
 
 **What `/bootstrap` sets up, if you would rather do it by hand (all committed to git):**
 
 | File | Who writes it | What it is |
 |---|---|---|
-| `CLAUDE.md` | you | The department's standing instructions — what it is, how to build and test it, what never to do. Claude Code reads it at every session start. |
+| `CLAUDE.md` | you | The department's standing instructions - what it is, how to build and test it, what never to do. Claude Code reads it at every session start. |
 | `docs/ISSUES.md` | Claude, as you work | The tracker: every bug, enhancement and chore, open or closed. Start from [`templates/ISSUES.md`](templates/ISSUES.md). `/housekeeping` needs it. |
 | `docs/CONTINUATION.md` | `/handover` | Where the last session stopped. Never edit it by hand; regenerate it. |
 | `CHANGELOG.md` | Claude, at each release | What changed, per version. Optional, but `/handover` and `/resume` read it when it exists. |
@@ -46,7 +46,7 @@ its template. Closing an entry moves it to Closed in the same commit."* After th
 its job.
 
 **4. Only if you run several sessions at once, one per department** (`/bootstrap` asks): follow
-[`SETUP.md`](SETUP.md) — lanes, a pilot, a shared log, the charter, the hooks. Already running the
+[`SETUP.md`](SETUP.md) - lanes, a pilot, a shared log, the charter, the hooks. Already running the
 v2 charter? [`MIGRATION.md`](MIGRATION.md).
 
 Start with steps 1 to 3 for a week before you touch step 4. The rest of this page is why.
@@ -61,10 +61,10 @@ coordinated team, each session owning one department of the business, on one wor
 | `commands/` | Four slash commands: `/bootstrap` prepares a department; `/handover` and `/resume` give a session continuity across days; `/housekeeping` keeps its issue tracker honest across weeks. |
 | `SETUP.md` | How to set up a team, in stages: one session, a team, a guard underneath. |
 | `MIGRATION.md` | Moving an existing team from the v2 charter to v3. |
-| `RULES.md` | The team's charter — settled and frozen at this revision. |
+| `RULES.md` | The team's charter - settled and frozen at this revision. |
 | `hooks/` | Four Claude Code hooks that wire the session rules into mechanism, with self-tests. |
 | `templates/` | The issue tracker, the CLAUDE.md team block, the team log. |
-| `diagrams/` | The team's shape, how authority travels, a session's life, a finding's life — each in a light and a dark version. |
+| `diagrams/` | The team's shape, how authority travels, a session's life, a finding's life - each in a light and a dark version. |
 
 Take what is useful. Please read the disclaimers first; they are not boilerplate.
 
@@ -80,7 +80,7 @@ The story behind it, in the order it happened, is a series of articles:
   <img alt="A digital team: the operator, the pilot, the lanes, the guard" src="diagrams/1-topology-light.svg" width="541">
 </picture>
 
-Each department has one Claude session that owns it for weeks — its own memory, tracker and history. The
+Each department has one Claude session that owns it for weeks - its own memory, tracker and history. The
 sessions coordinate through a pilot that keeps a shared log and has no authority. They follow a written
 charter that grew one incident at a time. And every command any of them runs passes through a guard that
 cannot be argued with, because it does not reason.
@@ -95,7 +95,7 @@ tell each other things; they never approve things for each other. A relayed "the
 is a claim.
 
 That is not the same as the sessions waiting for instructions. Inside its lane a session decides nearly
-everything itself — what to build and how, what to test, what a finding means and what happens to it — and
+everything itself - what to build and how, what to test, what a finding means and what happens to it - and
 between lanes they review and correct each other, the pilot included. What reaches the operator is the short
 list of acts that cannot be taken back or that leave a lane, each arriving as a four-line ask with a
 recommendation. In our team that recommendation is taken almost every time. The operator still reads every
@@ -113,7 +113,7 @@ moving thing that works is more useful than a finished thing that does not exist
 **2. This corpus assumes software development work.** The lanes it was grown in are code
 repositories, servers, and web platforms, and the vocabulary shows it. Nothing about the
 underlying idea is specific to software. A law practice, an accounting office, a
-marketing shop could grow the same structure — but you would sit down with Claude and
+marketing shop could grow the same structure - but you would sit down with Claude and
 write your own rules in the vocabulary of your own work, rather than translating these.
 That conversation is the valuable part, and it is not a conversation this repository can
 have for you.
@@ -123,7 +123,7 @@ They are one operator's rules, ratified one at a time, each one paid for by some
 that went wrong first.
 
 **4. The rules and the commands are themselves a collaboration.** They were written,
-corrected, and rewritten by the operator and the AI sessions together — most of the
+corrected, and rewritten by the operator and the AI sessions together - most of the
 sharpest clauses were contributed by a session that had just been burned by their
 absence, and several corrections to the operator's own drafts came from the sessions.
 That is worth knowing before you read them as instructions handed down to a tool.
@@ -150,7 +150,7 @@ when it turns out to be wrong.
 
 Copy the statute book without the case law and you get the words.
 
-What does transfer directly is the **procedural layer** — timestamps as instants rather
+What does transfer directly is the **procedural layer** - timestamps as instants rather
 than dates, marking every claim as verified or relayed, probing effective state instead
 of reading configuration, firing a check's failure path before trusting its green. Those
 are portable, and adopting them tomorrow is a genuine improvement.
@@ -165,7 +165,7 @@ worked example of what a team's accumulated corrections eventually look like whe
 somebody writes them down.
 
 A note on its register: the charter is written to be read by agents, and it reads that
-way — flat, imperative, no ornament. That is deliberate rather than careless. An agent
+way - flat, imperative, no ornament. That is deliberate rather than careless. An agent
 reads a rule literally, so a hedged or decorative sentence reads as an optional one, and
 every clause not doing work displaces one that is. The single indulgence is that most
 rules state the failure they exist to prevent; that earns its space, because a rule
@@ -183,12 +183,12 @@ that department.
 
 **`/bootstrap`** prepares a department once: it reports which files exist, creates the missing
 tracker, proposes the `CLAUDE.md` lines and explains why each file exists. It downloads
-nothing — the template it writes is inside the command — and it never overwrites a file.
+nothing - the template it writes is inside the command - and it never overwrites a file.
 
 They are a save/load pair:
 
-- **`/handover`** reads the department's state — manifest, changelog, git log, open issues,
-  memory — and writes `docs/CONTINUATION.md`: what was done, what is in progress, what
+- **`/handover`** reads the department's state - manifest, changelog, git log, open issues,
+  memory - and writes `docs/CONTINUATION.md`: what was done, what is in progress, what
   comes next, which decisions were made and why.
 - **`/resume`** reads that document back at the start of the next session and reports
   where things stand.
@@ -206,7 +206,7 @@ due. It does not require the rules either, though it speaks the charter's vocabu
 dispositions.
 
 The habit matters more than the files. Ending a working session with `/handover` and
-starting the next with `/resume` is what turns a chat into a colleague — the session that
+starting the next with `/resume` is what turns a chat into a colleague - the session that
 greets you tomorrow knows what you did today, what went wrong, and what is next. Most of
 what the rules later become possible to write down comes from having that record at all.
 
@@ -292,7 +292,7 @@ above, or [Where to start](https://susala.eu/digital-team/#where-to-start) on th
 
 ## What is deliberately not here
 
-The team's own operational records — our daily ledger (its template is here, the ledger is
+The team's own operational records - our daily ledger (its template is here, the ledger is
 not), the adoption state of each rule in each lane, the security intel logs, the incident
 write-ups the rules were compressed from. Those are working files about real infrastructure and real clients, and they are
 not ours to publish. Their absence is also the point of the warning above: the part that
@@ -304,7 +304,7 @@ is missing from this repository is most of what makes the part that is here work
 
 Bogdan Susala, with Claude.
 
-These rules were not written about the sessions and handed down to them — most of the sharpest
+These rules were not written about the sessions and handed down to them - most of the sharpest
 clauses were contributed by the session themselves that had just
 been burned by their absence, several corrections to the operator's own drafts came from
 the sessions, and the charter's structure was argued out between them. The copyright line
@@ -312,6 +312,6 @@ below is a legal formality; it is not a description of who wrote this.
 
 ## License
 
-MIT — see `LICENSE`. Copy it, change it, publish your own version. The licence asks only
+MIT - see `LICENSE`. Copy it, change it, publish your own version. The licence asks only
 that the copyright notice travel with substantial copies; beyond that, if you adapt this
 into something better suited to your own work, that is the intended outcome.
