@@ -58,7 +58,9 @@ a rule every future session follows. The block to propose:
 - Track every bug, enhancement and operational chore in `docs/ISSUES.md`, using its
   template. Ids are sequential and never reused.
 - The same commit that fixes an entry moves it to the Closed section.
-- Before filing, search the Open section for an existing entry.
+- Before filing, search the Open section for an existing entry. Before working an Open
+  entry, check it is still open; when closing one, close whatever else the same fix resolved.
+- Present everything awaiting the user's decision as one numbered list, answerable by number.
 - Start a session with `/resume`; end it with `/handover` and commit the result.
 - Run `/housekeeping` once a week, or when the tracker feels stale.
 ```
@@ -113,8 +115,11 @@ entry.
 
 **Hygiene:** the same commit that flips an entry to fixed moves it to Closed — a fixed entry
 sitting in Open is a tracker bug. At `/handover`, the next-up list comes from the Open
-section, never from memory alone. Before filing, search Open for an existing entry. Old open
-items are re-checked against the code and git before work starts: they may already be fixed.
+section, never from memory alone. Before filing, search Open for an existing entry.
+Before working an Open entry, verify it is still open (search the history for its id and the
+code it names): if it is already done, close it with the evidence and write no new code. When
+closing an entry, search Open for others the same fix resolved and close or re-status them in
+the same commit.
 
 ---
 
