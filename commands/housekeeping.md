@@ -18,6 +18,13 @@ Reconcile `docs/ISSUES.md` with what is actually true.
   - CHANGELOG.md          — optional; read as evidence
   - docs/.housekeeping    — the stamp this command writes (one UTC instant)
 
+  Optional companions, from the team hooks (installed in .claude/hooks/):
+  - housekeeping-reask.sh     — lists passed re-ask dates, trigger-gated re-checks and stray
+                                dates (step 2)
+  - housekeeping-selftest.sh  — its self-test
+  - due-check.sh              — prints the housekeeping state at session start, when
+                                due-stamps.local has a Housekeeping line
+
   Project-agnostic: put it in ~/.claude/commands/ and it works with any repository that
   keeps a markdown tracker. It does not require RULES.md; where the charter's terms appear
   below (dispositions, R18 asks), they are explained in place.
@@ -25,11 +32,39 @@ Reconcile `docs/ISSUES.md` with what is actually true.
 
 ## When to run it
 
-On a weekly floor, or whenever the tracker feels stale. Due is **elapsed time**: due when
-the time since the stamp in `docs/.housekeeping` reaches seven days. A missing stamp means
-never run, and due. A stamp that is empty, unparseable, a bare date, or in the future is
-**indeterminate** — report it as such and treat it as due; never read it as current.
-Only a full pass (steps 1–6) writes the stamp.
+On a weekly floor: it runs when due (see "Who runs it" below), on the operator's word, or
+whenever the tracker feels stale. Due is **elapsed time**: due when the time since the stamp
+in `docs/.housekeeping` reaches seven days. A missing stamp means never run (NEVER), and due.
+A stamp that is empty, unparseable, a bare date, or in the future is **indeterminate** —
+report it as such and treat it as due; never read it as current. Only a full pass (steps 1–6)
+writes the stamp.
+
+## Who runs it
+
+The due-check surfaces the state; the routine runs when invoked (`/housekeeping`, or the
+operator's word) **and also starts by itself** once the lane's housekeeping due-check reports
+the state DUE or NEVER — the state word after the label, never the word "due" anywhere in the
+line:
+
+- **When:** at the session's next natural break after the operator's request in hand is
+  answered — never ahead of it, never inside a task. For a lane whose session is closed, that
+  is its next session. When the daily security sweep is also due, the sweep goes first.
+- **Not by itself** on INDETERMINATE or any other broken stamp (surface the stamp instead: a
+  run would overwrite it), in a session the duplicate-session guard told to stay read-only
+  until the operator names the working session, or where no due-check prints the housekeeping
+  state at all. A session close does not owe a run first.
+- **Its report goes to the operator afterwards**, in the pass's commit message and the lane's
+  next heartbeat line to the pilot (or, for a lane that sends none, its next closing report),
+  and states the stamp's age when the run began.
+- **Starting unasked changes nothing inside the run.** It completes without stalling for an
+  answer; what needs the operator's word (step 6) still waits for it, and a refusal by the
+  harness stops that step and goes to the operator. In a run that started by itself: probes
+  are only those known to be free of side effects (any other is reported as not checked); fix
+  notices to other lanes are listed in the report, not sent, and go out once the operator has
+  seen it, or are listed again at the next run; and an entry that is part of an outstanding
+  question to the operator is only moved, never reworded.
+- **The commit, and the push to the lane's own backup, are carriage, not a gated step:** a
+  forward commit undoes them, nothing is erased, and an id once filed stays spent.
 
 ## Instructions
 
@@ -51,8 +86,11 @@ long-lived tracker are structural, and every heading-based read is blind to them
 - **Every finding carries a disposition from a closed set**, exactly one:
   `FIXED <commit + how it was confirmed>` · `TRACKED <id>` · `ESCALATED <to whom, for what> ·
   re-ask <date>` · `ACCEPTED <reason> · re-check <trigger>` · `BLOCKED <the gate> · re-check
-  <trigger>`. Planned work (a feature, a migration) carries none and is not flagged. A
-  disposition also names its owner, its evidence class (ruling, confirmation, read-back), and
+  <trigger>`. The token is the first word of the body (after the label) that is a whole
+  upper-case word from that set, never simply the first capitalised word: "Operator to
+  decide · ESCALATED · …" carries ESCALATED. A body naming no member of the set is the
+  finding, and so is a body naming two. Planned work (a feature, a migration) carries none
+  and is not flagged. A disposition also names its owner, its evidence class (ruling, confirmation, read-back), and
   what it silences until when: accepted silences; blocked and escalated only defer, so a
   deferring disposition with no date or trigger is a finding.
 - **Next free id** = highest id ever issued + 1. Ids are never reused and gaps are never
@@ -78,6 +116,30 @@ find:
 - **A date beside a trigger word outside the current disposition line** → move it onto the
   line, mark the old line as history, or reword it. A dead date next to a live trigger word
   is one careless read away from a false alarm.
+
+Where the team hooks are installed, the re-ask, trigger and stray-date items come from the
+surfacer:
+
+```bash
+bash .claude/hooks/housekeeping-reask.sh docs/ISSUES.md
+```
+
+It reads each entry's *current* disposition line (the last one whose label is not marked
+superseded, history, replaced or moot), joins its wrapped continuation, and prints one line
+per item: `DUE` (a re-ask or re-check date it governs has passed), `TRIGGER` (a re-check
+gated on an event, with no date — adjudicate it), `STRAY` (a trigger word and a date outside
+the current disposition line, or inside its label — fix the line). The output is the verdict;
+the exit code only says whether the file was read. Before trusting it, and after every
+reinstall, run its self-test and check the count, not the colour:
+
+```bash
+HOOKS_DIR=.claude/hooks bash .claude/hooks/housekeeping-selftest.sh
+# expect: housekeeping-selftest: 55 passed / 0 failed / 55 expected, exit 0
+```
+
+One of the 55 reads the lane's own hooks for a stamp parsed without a shape check; with
+`HOOKS_DIR` unset or misspelled it fails rather than skipping, because "cannot look" is not
+"nothing to see". A run that reports fewer than 55 assertions is incomplete, not passing.
 
 ### 3. Look for untracked work
 
@@ -109,6 +171,10 @@ Present, tight:
 - **Counts, with units:** entries read, the id-set difference before and after (removed must
   be empty unless a close moved it), closes, new entries, re-asks, triggers, aged, incomplete.
   A count that names its unit makes a drop visible; an id-set difference makes a swap visible.
+
+Everything in the report that awaits the operator's decision — blocking questions, the items
+step 6 holds for the operator's word — is numbered in one continuous sequence, so the operator
+can answer "2: yes, 4: later" without opening the tracker.
 
 ### 6. Apply, then stamp
 
