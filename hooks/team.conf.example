@@ -4,3 +4,7 @@ PILOT_NAME=pilot
 
 # From which compaction of one session on the compaction nudge speaks (default 2).
 COMPACT_NUDGE_AT=2
+
+# Where this lane's housekeeping stamp lives, for backburner-delta.sh (default docs/.housekeeping).
+# Absolute, ~/…, or relative to the repository root. Never inside a .claude/ folder.
+#HOUSEKEEPING_STAMP=docs/.housekeeping
