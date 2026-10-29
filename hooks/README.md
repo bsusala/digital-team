@@ -70,7 +70,9 @@ passing.
 
 `bash`, `jq`, `git`, GNU `date`, `awk`. Without `jq` the R9 trigger degrades to over-triggering and says so. The
 duplicate-session guard reads process working directories from `/proc` (Linux) and sends its desktop notice with
-`notify-send` where it exists; without `jq` its warning is still printed.
+`notify-send` where it exists; without `jq` its warning is still printed. It recognises a session by a process
+named `claude`, which is what the native installer runs; an installation that runs Claude Code under `node` (an npm
+install, for example) leaves it unable to find its own session, and it says so at every start instead of checking.
 
 ## What they write
 
