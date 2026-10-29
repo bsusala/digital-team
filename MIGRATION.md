@@ -1,8 +1,62 @@
-# Migrating from v2 to v3
+# Migrating
+
+- [From v3.1 to v3.2](#from-v31-to-v32) — tools and templates only; the charter is unchanged.
+- [From v2 to v3](#from-v2-to-v3) — the charter itself.
+
+## From v3.1 to v3.2
+
+`RULES.md` is byte-identical to v3.1, so no pin moves and nothing is ratified again. What changed is the
+tooling around it.
+
+### What changed
+
+**New hooks and scripts**
+
+| File | What it does | Self-test |
+|---|---|---|
+| `hooks/duplicate-session-guard.sh` | At session start, warns when another interactive session is already live in the same project, and tells the new one to stay read-only until the operator names the working session. Wired first on SessionStart. | `duplicate-session-guard-selftest.sh` — 13 passed, 0 failed |
+| `hooks/housekeeping-reask.sh` | The `/housekeeping` step-2 surfacer: passed re-ask dates (`DUE`), undated trigger-gated re-checks (`TRIGGER`), dates outside the current disposition line (`STRAY`). Not wired to an event. | `HOOKS_DIR=.claude/hooks housekeeping-selftest.sh` — 55 passed / 0 failed / 55 expected |
+| `scripts/backburner-delta.sh` | Lists the Open and Parked entries a commit cited, or whose named files changed, since the last housekeeping pass. | `--selftest` — 26 passed / 0 failed |
+
+**Changed**
+
+- **`/housekeeping`** starts by itself once the lane's due-check reports it DUE or NEVER — after the request in
+  hand, never inside a task, sweep first, never on a broken stamp or in a session told to stay read-only — and
+  starting unasked changes nothing inside the run. A disposition's token is the first whole upper-case word
+  from the closed set in the line's body. Its report numbers everything awaiting the operator.
+- **Team block** (`templates/CLAUDE-team-block.md`) gains three bullets and a line: lane records live
+  outside every `.claude/` folder (with a "Lane records at:" line to fill in); a hold stops lane work, never the daily sweep or
+  housekeeping; everything awaiting the operator is one numbered list per message.
+- **Tracker template** (`templates/ISSUES.md`, and the copy `/bootstrap` writes): verify an entry is still open
+  before working it; close what else a fix resolved in the same commit; notify a lane whose entry a shared fix
+  may resolve; start a backlog review from `backburner-delta.sh`.
+- **`SETUP.md`** gains 2.9, carrying each lane's work to the backup and reading it back, and 2.10, how a lane
+  installs an update to a shared team script.
+- `hooks/settings-hooks.json` and `hooks/team.conf.example` (`HOUSEKEEPING_STAMP`) follow.
+
+### How to install, lane by lane
+
+1. **Pilot:** copy the new and changed files into the team-state repository's `hooks/` and `scripts/`, commit,
+   and record the commit.
+2. **Each lane, on the operator's word in that lane** (these are hooks and settings, so the script-update route
+   in `SETUP.md` 2.10 does not apply): install from the named commit, merge the new SessionStart entry into
+   `.claude/settings.json` with the guard first, and run all five hook self-tests plus
+   `bash scripts/backburner-delta.sh --selftest`. Check the counts, not the colour.
+3. **Each lane: move its records out of any `.claude/` folder**, if any are there — tracker, security log,
+   stamps — repoint `due-stamps.local` and `team.conf`, commit, carry and read back. Fill in the
+   "Lane records at:" line of the team block.
+4. **Each lane: add a Housekeeping line to `due-stamps.local`** if it has none; without one, `/housekeeping`
+   never starts by itself.
+5. **Each lane: update the team block and the working agreement** from the templates, and record the change in
+   the pilot's log with the self-test counts.
+
+---
+
+## From v2 to v3
 
 For a team already running the v2 charter (tags `v2` / `v2.1`). A fresh team starts from `SETUP.md` instead.
 
-## What changed
+### What changed
 
 **New rules**
 
@@ -37,7 +91,7 @@ For a team already running the v2 charter (tags `v2` / `v2.1`). A fresh team sta
 - `hooks/` — the R9 wrap trigger, the due-check, the unclosed-session warning and the compaction nudge, with self-tests.
 - `templates/` — the issue tracker, the CLAUDE.md team block, the team log.
 
-## How to migrate, lane by lane
+### How to migrate, lane by lane
 
 The charter is ratified per lane, so migration is too. The pilot can prepare everything; only the operator's
 word in each lane moves that lane.
@@ -58,7 +112,7 @@ word in each lane moves that lane.
 6. **Pilot: record each lane's move in the log** — lane, old and new pin, self-test counts, the operator's
    words.
 
-## After migrating
+### After migrating
 
 - **The charter is frozen at v3.** New rules wait for a newly declared review; between reviews the text
   changes only by correction. Keep corrections in a separate errata file beside `RULES.md`, so that every

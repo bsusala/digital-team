@@ -47,7 +47,7 @@ its job.
 
 **4. Only if you run several sessions at once, one per department** (`/bootstrap` asks): follow
 [`SETUP.md`](SETUP.md) - lanes, a pilot, a shared log, the charter, the hooks. Already running the
-v2 charter? [`MIGRATION.md`](MIGRATION.md).
+v2 charter, or v3.1? [`MIGRATION.md`](MIGRATION.md).
 
 Start with steps 1 to 3 for a week before you touch step 4. The rest of this page is why.
 
@@ -60,9 +60,10 @@ coordinated team, each session owning one department of the business, on one wor
 |---|---|
 | `commands/` | Four slash commands: `/bootstrap` prepares a department; `/handover` and `/resume` give a session continuity across days; `/housekeeping` keeps its issue tracker honest across weeks. |
 | `SETUP.md` | How to set up a team, in stages: one session, a team, a guard underneath. |
-| `MIGRATION.md` | Moving an existing team from the v2 charter to v3. |
+| `MIGRATION.md` | Moving an existing team between releases: v2 to v3, v3.1 to v3.2. |
 | `RULES.md` | The team's charter - settled and frozen at this revision. |
-| `hooks/` | Four Claude Code hooks that wire the session rules into mechanism, with self-tests. |
+| `hooks/` | Five Claude Code hooks that wire the session rules into mechanism, and the housekeeping surfacer, with self-tests. |
+| `scripts/` | A team script: the backlog delta since the last housekeeping pass, with its self-test. |
 | `templates/` | The issue tracker, the CLAUDE.md team block, the team log. |
 | `diagrams/` | The team's shape, how authority travels, a session's life, a finding's life - each in a light and a dark version. |
 

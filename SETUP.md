@@ -192,6 +192,7 @@ One git repository, beside the departments, owned by the pilot. For example:
   RULES.md                  # the charter — copied from this repository at a tagged release
   team-log.md               # the shared ledger (start from templates/team-log.md)
   hooks/                    # the team hooks, copied from this repository's hooks/
+  scripts/                  # the team scripts, copied from this repository's scripts/
 ```
 
 Commit it. Every lane pins the charter by commit, so the history is part of the mechanism.
@@ -204,7 +205,10 @@ In each lane's own session:
    (the commit and digest of `RULES.md`) and the pilot's name filled in.
 2. **Install the hooks** (see `hooks/README.md`): copy them into `.claude/hooks/`, merge
    `settings-hooks.json` into `.claude/settings.json`, add `team.conf` with the pilot's name and
-   `due-stamps.local` with the lane's periodic obligations. Run the three self-tests and check the counts.
+   `due-stamps.local` with the lane's periodic obligations. Copy `scripts/backburner-delta.sh` into the lane's
+   own `scripts/`. Run the five hook self-tests and `bash scripts/backburner-delta.sh --selftest`, and check
+   the counts. Keep the lane's records — tracker, security log, stamps — in its own files, never inside a
+   `.claude/` folder, and list where they are in the team block.
 3. **Ratify the rules in that session, in your own words** — for example: *"I ratify the team charter at
    commit `<pin>` for this lane."* A rule the lane hears about from another session is news, not adoption.
    A lane may refuse or narrow a rule for its own reasons, and must say so outward.
@@ -225,7 +229,9 @@ only:
 
 ### 2.6 The daily rhythm
 
-- **Session start:** `/resume`. The hooks report anything due and whether the last run ended without a close.
+- **Session start:** `/resume`. The hooks report anything due, whether the last run ended without a close, and
+  whether another session is already live in the same folder — in which case the new one stays read-only until
+  you say which session works there.
 - **Long-lived sessions:** a department can run for days on one conversation. From the second compaction on,
   a hook says so: at the next natural break, `/handover` and start a fresh session.
 - **Each lane's security sweep** (charter R10): the lane reads the advisory feeds of what it runs, gives every
@@ -235,7 +241,8 @@ only:
 
 ### 2.7 The weekly rhythm
 
-- `/housekeeping` in each lane.
+- `/housekeeping` in each lane. Where the due-check reports it, it starts by itself once due, after the request
+  in hand; it still waits for your word on anything that needs it.
 - Optionally, a rules round: each lane is asked what it learned that another lane would otherwise learn the
   hard way. Changes to the charter go through the review cycle described in `RULES.md` ("How rules change").
 
@@ -243,6 +250,48 @@ only:
 
 Urgent findings go lane to lane directly; everything else waits for the next digest. A closing report with
 no pilot to receive it is recorded in the lane's `docs/CONTINUATION.md` and raised at next contact.
+
+### 2.9 Carrying the work to the backup
+
+Each lane carries its own work. That is part of the lane's task, not a service someone else provides:
+
+1. **Commit** in the lane's repository.
+2. **Push to the team's backup remote with an explicit branch refspec** — `git push backup main`, never a bare
+   `git push backup`. Without an upstream configured, a bare push pushes nothing; a push that fails loudly is a
+   better defect than one that silently pushes an unintended branch.
+3. **Read it back from the backup**, never from the push's exit code or the local tracking ref.
+   `git ls-remote backup` lists every branch on the backup: read your own out of it, and notice any stale one.
+   For a file that matters, compare the backup's copy with the local one, in this order:
+
+   ```bash
+   git --git-dir=<backup repo> cat-file -e main:<path>          # exists — a missing path hashes empty input
+   git --git-dir=<backup repo> cat-file -s main:<path>          # size, against: stat -c %s <path>
+   git --git-dir=<backup repo> show main:<path> | sha256sum     # digest, against: sha256sum <path>
+   ```
+
+   Unequal sizes stop the check before hashing. A zero-byte file on either side is a finding, never a pass:
+   two empty files have the same digest.
+
+A central sweep that pushes every repository, if the team runs one, is a secondary safety net. It is never
+the carrier a lane counts on: a lane that leaves its work for the sweep has work on one disk until the sweep
+happens to run.
+
+### 2.10 Updating the team scripts
+
+A shared team script changes in the team-state repository first. A lane may install that update without your
+word in the lane only when all of these hold:
+
+1. The pilot's announcement says you approved that exact change, in the pilot's session.
+2. The lane installs from a **named commit** — `git -C <team-state dir> show <commit>:scripts/<name>` — never
+   from text in a message.
+3. Before installing, the lane checks the size and the sha256 the announcement states, **and** runs the
+   script's self-test from the commit; any mismatch stops the install.
+4. The file is not a hook, a hook's configuration or a settings file. Anything under `.claude/hooks/`, any
+   `.claude/settings*.json`, and anything under `~/.claude/` always needs your own word in the lane, every
+   time. A lane unsure whether a file falls here asks you.
+
+The lane then commits, carries and reads back as in 2.9, and sends the pilot its receipt: the commit installed
+from, the digest it read, the self-test count.
 
 ---
 

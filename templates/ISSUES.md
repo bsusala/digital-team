@@ -26,9 +26,9 @@ section, never from memory alone. Before filing, search Open for an existing ent
   something lanes share), send that lane a one-line notice: what changed, the commit, "your
   entry may be resolved — verify". The receiving lane closes it only on its own check.
 
-**Reviewing the backlog** starts with `backburner-delta.sh` (from the team hooks): the Open
-and Parked entries whose id a commit cited, or whose named files changed, since the last
-housekeeping pass — re-verify those first, plus any fix notices received. The full
+**Reviewing the backlog** starts with `scripts/backburner-delta.sh`, where it is installed:
+the Open and Parked entries whose id a commit cited, or whose named files changed, since the
+last housekeeping pass — re-verify those first, plus any fix notices received. The full
 reconciliation stays with the weekly `/housekeeping`. Show the backlog to the operator as one
 numbered list, each line `#N — what it is about, in a few words` and its state, so the
 operator can answer "3: postpone" without opening this file.
