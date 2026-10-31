@@ -29,6 +29,14 @@ Then report, as a short table, which of these exist: `CLAUDE.md`, `docs/ISSUES.m
 project type from its manifest (`Cargo.toml`, `package.json`, `pyproject.toml`,
 `composer.json`, or none).
 
+Check that git can record commits here: `git config user.name` and `git config user.email`
+must both print a value. If either is empty, say that the first commit will fail without
+them, ask the user for the name and email to record, and set them with
+`git config --global user.name "<name>"` and `git config --global user.email "<email>"`
+only after their yes. Note the branch name (`git branch --show-current`; on a repository with
+no commits yet, `git symbolic-ref --short HEAD`) and use that name, never an assumed `main`,
+in anything you tell the user.
+
 ### 2. Create what is missing
 
 For each missing file, create it and say in one line why it exists.
