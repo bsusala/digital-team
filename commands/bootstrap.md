@@ -121,6 +121,10 @@ never typed from memory. `/housekeeping` reports it once the date has passed:
 
 On "no", add nothing.
 
+When that date comes, or whenever the user asks to grow into a team, offer to walk the setup
+guide's Stage 2 with them, one step at a time, doing each step on their yes. Ratifying the
+charter is the one step only the user can do, in their own words.
+
 Do not commit on the user's behalf; list the new files so they can review and commit them.
 
 ---
