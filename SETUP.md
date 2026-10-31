@@ -289,13 +289,14 @@ You are now inside Claude Code. Commands that start with `/` are typed here, in 
 ### 3. Run `/bootstrap` once
 
 It reports what exists, creates `docs/ISSUES.md` (and `CHANGELOG.md` if it has versions, as software does), and
-proposes a working agreement for `CLAUDE.md`. It never overwrites. It asks you three things:
+proposes a working agreement for `CLAUDE.md`. It never overwrites. It asks you four things:
 
 | It asks | Starting out, answer |
 |---|---|
 | Claude Code's permission to create or edit a file | **Yes**, after reading which file. These are the tracker files in this folder. |
 | Whether to write the proposed `CLAUDE.md` | **Yes**, after reading it. It is plain text; you can edit it later. |
 | Whether you run several Claude sessions at once, as a team | **No.** Run one session for a week first; Stage 2 adds the team when you are ready. |
+| Whether to note a reminder to decide about a team later | **Yes**, in two weeks or a month. `/housekeeping` shows it when the date comes; any answer then is fine, including staying on your own. |
 
 ### 4. Keep the drill
 
@@ -317,6 +318,10 @@ Stay here for a week before going further. The habit is what makes the rest poss
 ---
 
 ## Stage 2 — a team
+
+You can do this stage with Claude: in a department's session, ask it to walk you through Stage 2 (or answer the
+reminder `/bootstrap` noted). It does one step at a time, each on your yes. Ratifying the charter stays yours,
+in your own words.
 
 ### 2.1 Decide the lanes
 

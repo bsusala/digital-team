@@ -60,13 +60,14 @@ claude
 You are now inside Claude Code. Commands that start with `/` are typed here, in Claude, not in the
 terminal. Type `/bootstrap`. It looks at the folder, creates the missing tracker files, proposes the
 lines for `CLAUDE.md` and explains each one. It never overwrites anything, and changes to an existing
-file wait for your yes. It asks you three things:
+file wait for your yes. It asks you four things:
 
 | It asks | Starting out, answer |
 |---|---|
 | Claude Code's permission to create or edit a file | **Yes**, after reading which file. These are the tracker files in this folder. |
 | Whether to write the proposed `CLAUDE.md` | **Yes**, after reading it. It is plain text; you can edit it later. |
 | Whether you run several Claude sessions at once, as a team | **No.** Run one session for a week first; step 4 below is for later. |
+| Whether to note a reminder to decide about a team later | **Yes**, in two weeks or a month. `/housekeeping` shows it when the date comes; any answer then is fine, including staying on your own. |
 
 **3. Then, every day:**
 
@@ -96,7 +97,9 @@ its template. Closing an entry moves it to Closed in the same commit."* After th
 its job.
 
 **4. Only if you run several sessions at once, one per department** (`/bootstrap` asks): follow
-[`SETUP.md`](SETUP.md) - lanes, a pilot, a shared log, the charter, the hooks. Already running the
+[`SETUP.md`](SETUP.md) - lanes, a pilot, a shared log, the charter, the hooks. You do not have to do
+it alone: when the reminder comes, or whenever you ask, Claude walks you through it one step at a
+time and does each step on your yes. Already running the
 v2 charter, or v3.1? [`MIGRATION.md`](MIGRATION.md).
 
 Start with steps 1 to 3 for a week before you touch step 4. The rest of this page is why.
