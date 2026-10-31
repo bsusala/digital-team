@@ -41,8 +41,9 @@ We use **Ubuntu 24.04 LTS** ("LTS" means long-term support: security updates for
 
 ### 2. Meet the terminal
 
-Open it with **Ctrl+Alt+T**. Everything below is typed there, one line at a time, followed by Enter. The few
-commands worth knowing on day one:
+Open it with **Ctrl+Alt+T**. Everything below is typed there. Each grey block is one command: copy it, paste it
+into the terminal with **Ctrl+Shift+V** (plain Ctrl+V does not paste in a terminal), press Enter, and read what it
+says before going to the next one. The few commands worth knowing on day one:
 
 | Command | What it does |
 |---|---|
@@ -58,8 +59,21 @@ while you type the password; that is normal.
 
 ### 3. Update the system and install the tools
 
+Refresh the list of available updates:
+
 ```bash
-sudo apt update && sudo apt upgrade -y
+sudo apt update
+```
+
+Install them:
+
+```bash
+sudo apt upgrade -y
+```
+
+Install the three tools the team uses:
+
+```bash
 sudo apt install -y git jq curl
 ```
 
@@ -74,17 +88,39 @@ curl -fsSL https://claude.ai/install.sh | bash
 ```
 
 This downloads a script from Anthropic and runs it. If you prefer to read a script before running it - a good
-habit - download it first with `curl -fsSL https://claude.ai/install.sh -o install.sh`, read it with
-`less install.sh`, then run `bash install.sh`.
+habit - use these three commands instead of the one above. Download it:
 
-Open a **new** terminal, then check the installation:
+```bash
+curl -fsSL https://claude.ai/install.sh -o install.sh
+```
+
+Read it (the arrow keys scroll, `q` quits):
+
+```bash
+less install.sh
+```
+
+Run it:
+
+```bash
+bash install.sh
+```
+
+Open a **new** terminal, then check the installation. This prints the version:
 
 ```bash
 claude --version
+```
+
+This checks the installation and says what is missing, if anything:
+
+```bash
 claude doctor
 ```
 
 ### 5. Sign in
+
+Start Claude Code:
 
 ```bash
 claude
@@ -96,21 +132,42 @@ leave for now. Claude Code updates itself; `claude update` forces an update.
 
 ### 6. Tell git who you are
 
-Every commit records its author. Once:
+Every commit records its author. Run these once, with your own name and email in the quotes. Your name:
 
 ```bash
 git config --global user.name "Your Name"
+```
+
+Your email:
+
+```bash
 git config --global user.email "you@example.com"
+```
+
+Call the main line of every new repository `main`:
+
+```bash
 git config --global init.defaultBranch main
 ```
 
 ### 7. Make a home for your company
 
-One folder for the business, one folder per department inside it, and every department a git repository:
+One folder for the business, one folder per department inside it, and every department a git repository.
+Make the first department's folder, here for marketing:
 
 ```bash
 mkdir -p ~/Company/marketing
+```
+
+Go into it:
+
+```bash
 cd ~/Company/marketing
+```
+
+Turn it into a git repository, so every change is kept:
+
+```bash
 git init
 ```
 
@@ -119,16 +176,52 @@ with `git clone <address>` if it already lives in a git service.
 
 ### 8. Keep a second copy from day one
 
-A single laptop is a single point of failure. Both options below need the department to have at least one commit
-(`git add -A && git commit -m "First commit"`; after Stage 1, every `/handover` gives you another). Two simple
-options:
+A single laptop is a single point of failure. Both options below need the department to have at least one
+commit. In the department's folder, mark every file to be kept:
 
-- **A private repository** on a git hosting service (GitHub, GitLab, Codeberg). Create an empty private
-  repository there, then in the department's folder: `git remote add origin <its address>` and `git push -u origin main`.
-- **A USB drive**, if you would rather keep everything offline. With the drive mounted:
-  `git clone --bare ~/Company/marketing /media/$USER/<drive>/marketing.git`, then in the
-  department's folder `git remote add usb /media/$USER/<drive>/marketing.git` and, after each working day,
-  `git push usb main`.
+```bash
+git add -A
+```
+
+Record them as the first commit:
+
+```bash
+git commit -m "First commit"
+```
+
+After Stage 1, every `/handover` gives you another. Then pick one of two simple options.
+
+**A private repository** on a git hosting service (GitHub, GitLab, Codeberg). Create an empty private repository
+there and copy its address. In the department's folder, connect to it (put the address in place of `<its address>`):
+
+```bash
+git remote add origin <its address>
+```
+
+Send your work there:
+
+```bash
+git push -u origin main
+```
+
+**A USB drive**, if you would rather keep everything offline. With the drive plugged in, make an empty copy on it
+(put the drive's name, as the file manager shows it, in place of `<drive>`):
+
+```bash
+git clone --bare ~/Company/marketing /media/$USER/<drive>/marketing.git
+```
+
+In the department's folder, connect to it:
+
+```bash
+git remote add usb /media/$USER/<drive>/marketing.git
+```
+
+After each working day, send your work there:
+
+```bash
+git push usb main
+```
 
 Whichever you choose, check now and then that the copy really has your latest work - a push that failed looks
 exactly like one that succeeded until you look.
@@ -149,17 +242,69 @@ Now go to Stage 1.
 
 ## Stage 1 — one department, one session
 
-You need Claude Code and a folder in git for one department of your business.
+You need Claude Code and a folder in git for one department of your business (Stage 0, steps 4 to 7).
 
-1. **Install the commands once** (see the README): `/bootstrap`, `/resume`, `/handover`, `/housekeeping` in
-   `~/.claude/commands/`.
-2. **Run `/bootstrap` in the department's folder.** It reports what exists, creates `docs/ISSUES.md` (and `CHANGELOG.md`
-   if it has versions, as software does), and proposes a working agreement for `CLAUDE.md`. It never overwrites.
-3. **Keep the drill:** `/resume` when you open a session, `/handover` before you close it (commit the result),
-   `/housekeeping` once a week.
-4. **Moving between machines or places?** Exit the session and resume with `claude --continue` from the same
-   folder. The conversation comes back; no handover is owed for a restart. A real close — the end of the work,
-   not an interruption — still gets a `/handover`.
+### 1. Install the commands once
+
+In a terminal. Go to your home folder:
+
+```bash
+cd ~
+```
+
+Download the Digital Team:
+
+```bash
+git clone https://github.com/bsusala/digital-team.git
+```
+
+Make the folder where Claude Code looks for commands:
+
+```bash
+mkdir -p ~/.claude/commands
+```
+
+Copy the four commands into it - `/bootstrap`, `/resume`, `/handover`, `/housekeeping`:
+
+```bash
+cp digital-team/commands/*.md ~/.claude/commands/
+```
+
+### 2. Start Claude Code in the department's folder
+
+Go into it:
+
+```bash
+cd ~/Company/marketing
+```
+
+Start Claude Code:
+
+```bash
+claude
+```
+
+You are now inside Claude Code. Commands that start with `/` are typed here, in Claude, not in the terminal.
+
+### 3. Run `/bootstrap` once
+
+It reports what exists, creates `docs/ISSUES.md` (and `CHANGELOG.md` if it has versions, as software does), and
+proposes a working agreement for `CLAUDE.md`. It never overwrites.
+
+### 4. Keep the drill
+
+`/resume` when you open a session, `/handover` before you close it (commit the result), `/housekeeping` once a week.
+
+### 5. Moving between machines or places?
+
+Type `/exit` to leave the session. Later, from the same folder, start it again with:
+
+```bash
+claude --continue
+```
+
+The conversation comes back; no handover is owed for a restart. A real close — the end of the work, not an
+interruption — still gets a `/handover`.
 
 Stay here for a week before going further. The habit is what makes the rest possible.
 
