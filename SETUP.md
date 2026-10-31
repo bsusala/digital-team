@@ -198,10 +198,10 @@ there and copy its address. In the department's folder, connect to it (put the a
 git remote add origin <its address>
 ```
 
-Send your work there:
+Send your work there (`HEAD` means the branch you are on, whatever its name):
 
 ```bash
-git push -u origin main
+git push -u origin HEAD
 ```
 
 **A USB drive**, if you would rather keep everything offline. With the drive plugged in, make an empty copy on it
@@ -220,7 +220,7 @@ git remote add usb /media/$USER/<drive>/marketing.git
 After each working day, send your work there:
 
 ```bash
-git push usb main
+git push usb HEAD
 ```
 
 Whichever you choose, check now and then that the copy really has your latest work - a push that failed looks
