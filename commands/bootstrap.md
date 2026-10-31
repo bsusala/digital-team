@@ -104,6 +104,23 @@ into a team: a pilot, a shared log, and the team charter, adopted rule by rule o
 word. A department may also stay as it is, one session outside the team; the drill works on its
 own.
 
+Then offer a reminder: *"Shall I note in the tracker to look at this again? In two weeks, in a
+month, on a date you choose — or no."* On a date, add one entry at the top of the Open section of
+`docs/ISSUES.md`, with the next id and the date computed in a command (`date -d '+14 days' +%F`),
+never typed from memory. `/housekeeping` reports it once the date has passed:
+
+```markdown
+### #N — Decide whether this department joins a team (setup guide, Stage 2)
+
+- **Type:** Chore — team setup. Found by: /bootstrap, <today>.
+- **Observed:** this department runs as one session, outside a team.
+- **Expected:** the user decides: prepare more departments, enrol them in the team charter
+  (Stage 2), or keep this one on its own. Any answer closes this entry.
+- **Disposition:** ESCALATED to the user, for the team decision · re-ask <YYYY-MM-DD>.
+```
+
+On "no", add nothing.
+
 Do not commit on the user's behalf; list the new files so they can review and commit them.
 
 ---
