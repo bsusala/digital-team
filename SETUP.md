@@ -289,7 +289,13 @@ You are now inside Claude Code. Commands that start with `/` are typed here, in 
 ### 3. Run `/bootstrap` once
 
 It reports what exists, creates `docs/ISSUES.md` (and `CHANGELOG.md` if it has versions, as software does), and
-proposes a working agreement for `CLAUDE.md`. It never overwrites.
+proposes a working agreement for `CLAUDE.md`. It never overwrites. It asks you three things:
+
+| It asks | Starting out, answer |
+|---|---|
+| Claude Code's permission to create or edit a file | **Yes**, after reading which file. These are the tracker files in this folder. |
+| Whether to write the proposed `CLAUDE.md` | **Yes**, after reading it. It is plain text; you can edit it later. |
+| Whether you run several Claude sessions at once, as a team | **No.** Run one session for a week first; Stage 2 adds the team when you are ready. |
 
 ### 4. Keep the drill
 

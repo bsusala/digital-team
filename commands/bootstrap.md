@@ -74,8 +74,9 @@ a rule every future session follows. The block to propose:
 
 ### 4. Ask about several sessions — once
 
-Ask one question: *"Do you run several Claude sessions at once, one per project, that should
-work as a team?"*
+Ask one question, with its recommendation: *"Do you run several Claude sessions at once, one per
+project, that should work as a team? If you are starting out, answer no: run this one session
+for a week first. When you are ready for a team, the setup guide's Stage 2 adds it."*
 
 - **No** (the common case): skip this step entirely. The drill works for one project and one
   session.

@@ -60,7 +60,13 @@ claude
 You are now inside Claude Code. Commands that start with `/` are typed here, in Claude, not in the
 terminal. Type `/bootstrap`. It looks at the folder, creates the missing tracker files, proposes the
 lines for `CLAUDE.md` and explains each one. It never overwrites anything, and changes to an existing
-file wait for your yes.
+file wait for your yes. It asks you three things:
+
+| It asks | Starting out, answer |
+|---|---|
+| Claude Code's permission to create or edit a file | **Yes**, after reading which file. These are the tracker files in this folder. |
+| Whether to write the proposed `CLAUDE.md` | **Yes**, after reading it. It is plain text; you can edit it later. |
+| Whether you run several Claude sessions at once, as a team | **No.** Run one session for a week first; step 4 below is for later. |
 
 **3. Then, every day:**
 
