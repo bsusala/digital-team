@@ -97,6 +97,13 @@ habits, in this order:
 2. At the start of the next one, run `/resume`.
 3. Once a week, run `/housekeeping`.
 
+Then say where this leads, in a few lines: this department is a first step. When it works well,
+after about a week, prepare the next departments the same way, each in its own folder with its
+own `/bootstrap`. Once two or three have real work history, the setup guide's Stage 2 turns them
+into a team: a pilot, a shared log, and the team charter, adopted rule by rule on the user's own
+word. A department may also stay as it is, one session outside the team; the drill works on its
+own.
+
 Do not commit on the user's behalf; list the new files so they can review and commit them.
 
 ---
