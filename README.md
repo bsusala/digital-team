@@ -6,17 +6,61 @@ You need [Claude Code](https://claude.com/claude-code) and a folder, kept in git
 terminal or git? Start with [Stage 0 of the setup guide](SETUP.md#stage-0--the-workstation) - installing
 Ubuntu, the tools and Claude Code, step by step.
 
-**1. Install the commands (once, two minutes):**
+Each grey block below is one command, typed in a terminal (on Ubuntu: Ctrl+Alt+T): paste it with
+Ctrl+Shift+V, press Enter, then go to the next one.
+
+**1. Install the commands (once, two minutes).** Go to your home folder:
+
+```bash
+cd ~
+```
+
+Download the Digital Team:
 
 ```bash
 git clone https://github.com/bsusala/digital-team.git
+```
+
+Make the folder where Claude Code looks for commands:
+
+```bash
 mkdir -p ~/.claude/commands
+```
+
+Copy the commands into it:
+
+```bash
 cp digital-team/commands/*.md ~/.claude/commands/
 ```
 
-**2. Once per department, run `/bootstrap`.** It looks at the repository, creates the missing
-tracker files, proposes the lines for `CLAUDE.md` and explains each one. It never overwrites
-anything, and changes to an existing file wait for your yes.
+**2. Once per department, run `/bootstrap`.** Make the department's folder, here for marketing:
+
+```bash
+mkdir -p ~/Company/marketing
+```
+
+Go into it:
+
+```bash
+cd ~/Company/marketing
+```
+
+Turn it into a git folder, so every change is kept:
+
+```bash
+git init
+```
+
+Start Claude Code:
+
+```bash
+claude
+```
+
+You are now inside Claude Code. Commands that start with `/` are typed here, in Claude, not in the
+terminal. Type `/bootstrap`. It looks at the folder, creates the missing tracker files, proposes the
+lines for `CLAUDE.md` and explains each one. It never overwrites anything, and changes to an existing
+file wait for your yes.
 
 **3. Then, every day:**
 

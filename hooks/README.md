@@ -21,13 +21,40 @@ One tool ships beside the hooks. It is installed in the same folder but wired to
 
 ## Install, per department
 
+In a terminal, in the department's folder (here marketing), with this repository cloned in your home folder as
+in the README. Go into the department's folder:
+
+```bash
+cd ~/Company/marketing
+```
+
+Make the folder for its hooks:
+
 ```bash
 mkdir -p .claude/hooks
-cp hooks/r9-wrap-trigger.sh hooks/due-check.sh hooks/r9-unclosed-warn.sh hooks/compact-nudge.sh \
-   hooks/duplicate-session-guard.sh .claude/hooks/
-cp hooks/housekeeping-reask.sh .claude/hooks/
-cp hooks/r9-trigger-selftest.sh hooks/d2d3-selftest.sh hooks/compact-selftest.sh \
-   hooks/duplicate-session-guard-selftest.sh hooks/housekeeping-selftest.sh .claude/hooks/
+```
+
+Copy the five hooks:
+
+```bash
+cp ~/digital-team/hooks/r9-wrap-trigger.sh ~/digital-team/hooks/due-check.sh ~/digital-team/hooks/r9-unclosed-warn.sh ~/digital-team/hooks/compact-nudge.sh ~/digital-team/hooks/duplicate-session-guard.sh .claude/hooks/
+```
+
+Copy the housekeeping surfacer:
+
+```bash
+cp ~/digital-team/hooks/housekeeping-reask.sh .claude/hooks/
+```
+
+Copy the five self-tests:
+
+```bash
+cp ~/digital-team/hooks/r9-trigger-selftest.sh ~/digital-team/hooks/d2d3-selftest.sh ~/digital-team/hooks/compact-selftest.sh ~/digital-team/hooks/duplicate-session-guard-selftest.sh ~/digital-team/hooks/housekeeping-selftest.sh .claude/hooks/
+```
+
+Make them runnable:
+
+```bash
 chmod +x .claude/hooks/*.sh
 ```
 
@@ -52,11 +79,20 @@ a matcher that leaves it out means the nudge never runs. Optionally:
 Run the five self-tests from the installed directory and check the counts, not the colour:
 
 ```bash
-bash .claude/hooks/r9-trigger-selftest.sh .claude/hooks/r9-wrap-trigger.sh   # expect 39 passed, 0 failed
-bash .claude/hooks/d2d3-selftest.sh .claude/hooks                             # expect 47 passed, 0 failed
-bash .claude/hooks/compact-selftest.sh .claude/hooks                          # expect 24 passed, 0 failed
-bash .claude/hooks/duplicate-session-guard-selftest.sh                        # expect 13 passed, 0 failed
-HOOKS_DIR=.claude/hooks bash .claude/hooks/housekeeping-selftest.sh           # expect 55 passed / 0 failed / 55 expected
+# expect 39 passed, 0 failed
+bash .claude/hooks/r9-trigger-selftest.sh .claude/hooks/r9-wrap-trigger.sh
+
+# expect 47 passed, 0 failed
+bash .claude/hooks/d2d3-selftest.sh .claude/hooks
+
+# expect 24 passed, 0 failed
+bash .claude/hooks/compact-selftest.sh .claude/hooks
+
+# expect 13 passed, 0 failed
+bash .claude/hooks/duplicate-session-guard-selftest.sh
+
+# expect 55 passed / 0 failed / 55 expected
+HOOKS_DIR=.claude/hooks bash .claude/hooks/housekeeping-selftest.sh
 ```
 
 The housekeeping self-test also reads every script in `HOOKS_DIR` for a stamp parsed with `date -d` and no shape
