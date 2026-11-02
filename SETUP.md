@@ -302,7 +302,7 @@ proposes a working agreement for `CLAUDE.md`. It never overwrites. It asks you f
 
 `/resume` when you open a session, `/handover` before you close it (commit the result), `/housekeeping` once a week.
 
-### 5. Moving between machines or places?
+### 5. Pausing and coming back
 
 Type `/exit` to leave the session. Later, from the same folder, start it again with:
 
@@ -484,7 +484,11 @@ sessions, remove it first, with its own instructions.
    rm -rf ~/Company
    ```
 
-   To remove one department only, delete its folder instead, for example `rm -rf ~/Company/marketing`.
+   To remove one department only, delete its folder instead, here marketing:
+
+   ```bash
+   rm -rf ~/Company/marketing
+   ```
 
 3. **Delete what Claude Code remembers about those folders.** Claude Code keeps each folder's memory and
    conversations in `~/.claude/projects/`, under the folder's path written with `-` in place of `/`
@@ -514,11 +518,144 @@ sessions, remove it first, with its own instructions.
    ```
 
 6. **The backup copies stay** on the USB drive or the hosting service. To start with an empty backup too,
-   delete each department's copy there; on a USB drive, for example
-   `rm -rf /media/$USER/<drive>/marketing.git`. Otherwise Stage 0, step 8 stops, because the copy exists.
+   delete each department's copy there, or Stage 0, step 8 stops because the copy exists. On a USB drive,
+   here for marketing (put the drive's name in place of `<drive>`):
 
-**Check:** `ls ~/.claude/commands/ ~/.claude/projects/` lists none of the above. Claude Code, your sign-in and
-your Claude Code settings stay as they are. To set up again, start at Stage 0, step 7.
+   ```bash
+   rm -rf /media/$USER/<drive>/marketing.git
+   ```
+
+   On a hosting service, delete the repository in its web page.
+
+7. **Check.** None of the four commands should be listed here:
+
+   ```bash
+   ls ~/.claude/commands/
+   ```
+
+   And no folder ending in `Company` or `Company-` and a department's name here:
+
+   ```bash
+   ls ~/.claude/projects/
+   ```
+
+Claude Code, your sign-in and your Claude Code settings stay as they are. To set up again, start at Stage 0,
+step 7.
+
+---
+
+## Moving a department to another computer
+
+A department has two parts. The folder itself is a git repository, so your backup already carries it: the
+working agreement (`CLAUDE.md`), the tracker, the handover, the team hooks. What Claude Code remembers about the
+folder — its memory and your conversations — is kept outside it, in `~/.claude/projects/`, and moves only if
+you copy it. The steps below use a USB drive and the marketing department; do them once per department.
+
+**On the old computer:**
+
+1. Go into the department's folder:
+
+   ```bash
+   cd ~/Company/marketing
+   ```
+
+2. See whether anything is not yet committed:
+
+   ```bash
+   git status
+   ```
+
+   If it does not say `nothing to commit, working tree clean`, mark everything to be kept:
+
+   ```bash
+   git add -A
+   ```
+
+   And record it:
+
+   ```bash
+   git commit -m "Before moving"
+   ```
+
+3. Send it to your backup (Stage 0, step 8; on a hosting service the name is `origin` instead of `usb`):
+
+   ```bash
+   git push usb HEAD
+   ```
+
+4. Find the folder where Claude Code keeps this department's memory and conversations. Its name is the
+   folder's path with `-` in place of `/`, so for `/home/<you>/Company/marketing` it ends in
+   `-Company-marketing`:
+
+   ```bash
+   ls ~/.claude/projects/
+   ```
+
+5. Copy it to the USB drive (put the name you found in place of `<that folder>`, and the drive's name in place
+   of `<drive>`):
+
+   ```bash
+   cp -r ~/.claude/projects/<that folder> /media/$USER/<drive>/
+   ```
+
+   The copy holds your conversations with Claude, so treat the drive as private.
+
+**On the new computer:**
+
+6. Do Stage 0 up to step 6 (Ubuntu, the tools, Claude Code, sign in, git), and Stage 1, step 1 (the commands).
+
+7. Make the company folder:
+
+   ```bash
+   mkdir -p ~/Company
+   ```
+
+8. Get the department back from the backup, with all its history (on a hosting service, use its address
+   instead of the drive path):
+
+   ```bash
+   git clone /media/$USER/<drive>/marketing.git ~/Company/marketing
+   ```
+
+9. Make the folder where Claude Code keeps what it remembers:
+
+   ```bash
+   mkdir -p ~/.claude/projects
+   ```
+
+10. Copy the memory and conversations back:
+
+    ```bash
+    cp -r /media/$USER/<drive>/<that folder> ~/.claude/projects/
+    ```
+
+11. **Only if your user name on the new computer is different:** the folder's name still carries the old one.
+    Rename it, putting the old and new names in place of `<old>` and `<new>`:
+
+    ```bash
+    mv ~/.claude/projects/-home-<old>-Company-marketing ~/.claude/projects/-home-<new>-Company-marketing
+    ```
+
+12. Go into the department's folder:
+
+    ```bash
+    cd ~/Company/marketing
+    ```
+
+13. Start Claude Code with the last conversation:
+
+    ```bash
+    claude --continue
+    ```
+
+    Then run `/resume`. If it reports what you were doing, the move is complete. In a team (Stage 2), each lane
+    you moved also needs your word again, in its own session, before the rules bind there (Stage 2.4, step 3).
+
+14. When the new computer works, delete the copy from the USB drive:
+
+    ```bash
+    rm -rf /media/$USER/<drive>/<that folder>
+    ```
 
 ---
 
