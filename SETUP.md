@@ -470,6 +470,58 @@ over regardless of the guard you use:
 
 ---
 
+## Starting over
+
+To take the Digital Team off a computer, or to set it up again from the beginning. If a guard runs under your
+sessions, remove it first, with its own instructions.
+
+1. **Keep what you want.** Every department is a git repository: commit, send it to your backup (Stage 0,
+   step 8) and check the backup has your latest work. Copy anything else you want out of `~/Company/`.
+
+2. **Delete the company folder,** with every department and the team-state repository in it:
+
+   ```bash
+   rm -rf ~/Company
+   ```
+
+   To remove one department only, delete its folder instead, for example `rm -rf ~/Company/marketing`.
+
+3. **Delete what Claude Code remembers about those folders.** Claude Code keeps each folder's memory and
+   conversations in `~/.claude/projects/`, under the folder's path written with `-` in place of `/`
+   (`~/Company/marketing` is kept as `-home-<you>-Company-marketing`). They stay after the folder is gone, and
+   a new folder with the same name finds them again. See what is there:
+
+   ```bash
+   ls ~/.claude/projects/
+   ```
+
+   Delete the company's:
+
+   ```bash
+   rm -rf ~/.claude/projects/*-Company ~/.claude/projects/*-Company-*
+   ```
+
+4. **Delete the four commands:**
+
+   ```bash
+   rm ~/.claude/commands/bootstrap.md ~/.claude/commands/resume.md ~/.claude/commands/handover.md ~/.claude/commands/housekeeping.md
+   ```
+
+5. **Delete the download:**
+
+   ```bash
+   rm -rf ~/digital-team
+   ```
+
+6. **The backup copies stay** on the USB drive or the hosting service. To start with an empty backup too,
+   delete each department's copy there; on a USB drive, for example
+   `rm -rf /media/$USER/<drive>/marketing.git`. Otherwise Stage 0, step 8 stops, because the copy exists.
+
+**Check:** `ls ~/.claude/commands/ ~/.claude/projects/` lists none of the above. Claude Code, your sign-in and
+your Claude Code settings stay as they are. To set up again, start at Stage 0, step 7.
+
+---
+
 ## Migrating from an earlier charter
 
 See `MIGRATION.md`.
