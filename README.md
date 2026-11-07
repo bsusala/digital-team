@@ -114,6 +114,7 @@ coordinated team, each session owning one department of the business, on one wor
 | `commands/` | Five slash commands: `/bootstrap` prepares a department; `/handover` and `/resume` give a session continuity across days; `/housekeeping` keeps its issue tracker honest across weeks; `/capture` turns a task done in the session into a procedure the department can run again. |
 | `SETUP.md` | How to set up a team, in stages: one session, a team, a guard underneath. |
 | `MIGRATION.md` | Moving an existing team between releases: v2 to v3, v3.1 to v3.2. |
+| `CHANGELOG.md` | What changed in each release, newest first. |
 | `RULES.md` | The team's charter - settled and frozen at this revision. |
 | `hooks/` | Five Claude Code hooks that wire the session rules into mechanism, and the housekeeping surfacer, with self-tests. |
 | `scripts/` | Two scripts, each with its self-test: the backlog delta since the last housekeeping pass, and `department.py`, which packs a department into one zip (its folder, what Claude Code keeps about it, and a how-to) to move it or keep a copy. |
