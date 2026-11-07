@@ -5,6 +5,8 @@ What changed in each release, newest first. Upgrade steps between releases are i
 
 ## [Unreleased]
 
+## [3.3.0] — 2026-11-07
+
 `RULES.md` is unchanged; nothing is ratified again and no migration is needed. To get the new
 command, copy `commands/capture.md` into `~/.claude/commands/`.
 
@@ -116,7 +118,8 @@ The recipe around the charter.
 ### Added
 - The charter: R1–R13, the standing riders, R14 as a candidate, and `/handover` and `/resume`.
 
-[Unreleased]: https://github.com/bsusala/digital-team/compare/v3.2.3...HEAD
+[Unreleased]: https://github.com/bsusala/digital-team/compare/v3.3.0...HEAD
+[3.3.0]: https://github.com/bsusala/digital-team/compare/v3.2.3...v3.3.0
 [3.2.3]: https://github.com/bsusala/digital-team/compare/v3.2.2...v3.2.3
 [3.2.2]: https://github.com/bsusala/digital-team/compare/v3.2.1...v3.2.2
 [3.2.1]: https://github.com/bsusala/digital-team/compare/v3.2...v3.2.1
