@@ -111,7 +111,7 @@ coordinated team, each session owning one department of the business, on one wor
 
 | Path | What it is |
 |---|---|
-| `commands/` | Four slash commands: `/bootstrap` prepares a department; `/handover` and `/resume` give a session continuity across days; `/housekeeping` keeps its issue tracker honest across weeks. |
+| `commands/` | Five slash commands: `/bootstrap` prepares a department; `/handover` and `/resume` give a session continuity across days; `/housekeeping` keeps its issue tracker honest across weeks; `/capture` turns a task done in the session into a procedure the department can run again. |
 | `SETUP.md` | How to set up a team, in stages: one session, a team, a guard underneath. |
 | `MIGRATION.md` | Moving an existing team between releases: v2 to v3, v3.1 to v3.2. |
 | `RULES.md` | The team's charter - settled and frozen at this revision. |
@@ -230,9 +230,9 @@ imperative does not.
 
 ## The commands
 
-The four files in `commands/` are Claude Code slash commands. Put them in
-`~/.claude/commands/` and they become `/bootstrap`, `/handover`, `/resume` and
-`/housekeeping` in every folder, or in one department's own `.claude/commands/` to scope them to
+The five files in `commands/` are Claude Code slash commands. Put them in
+`~/.claude/commands/` and they become `/bootstrap`, `/handover`, `/resume`,
+`/housekeeping` and `/capture` in every folder, or in one department's own `.claude/commands/` to scope them to
 that department.
 
 **`/bootstrap`** prepares a department once: it reports which files exist, creates the missing
@@ -258,6 +258,14 @@ passed, work that was never filed. It applies the reversible fixes, lists the on
 the operator's word, and stamps the run as a UTC instant so the next one knows when it is
 due. It does not require the rules either, though it speaks the charter's vocabulary for
 dispositions.
+
+**`/capture`** turns a task the department just did by hand into a procedure it can run by
+name. The conversation is the specification: it lists what was done, sorts each step into
+fixed, varying or judgment, places approval gates only before what cannot be undone, tests
+the procedure on the case just done, and writes it as a project skill in
+`.claude/skills/<name>/` inside the department's folder. Every file it writes waits for the
+operator's yes. A recurring procedure gets a due-check line, or says plainly that it is not
+scheduled.
 
 The habit matters more than the files. Ending a working session with `/handover` and
 starting the next with `/resume` is what turns a chat into a colleague - the session that

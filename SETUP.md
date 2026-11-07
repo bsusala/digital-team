@@ -264,7 +264,7 @@ Make the folder where Claude Code looks for commands:
 mkdir -p ~/.claude/commands
 ```
 
-Copy the four commands into it - `/bootstrap`, `/resume`, `/handover`, `/housekeeping`:
+Copy the five commands into it - `/bootstrap`, `/resume`, `/handover`, `/housekeeping`, `/capture`:
 
 ```bash
 cp digital-team/commands/*.md ~/.claude/commands/
@@ -505,10 +505,10 @@ sessions, remove it first, with its own instructions.
    rm -rf ~/.claude/projects/*-Company ~/.claude/projects/*-Company-*
    ```
 
-4. **Delete the four commands:**
+4. **Delete the five commands:**
 
    ```bash
-   rm ~/.claude/commands/bootstrap.md ~/.claude/commands/resume.md ~/.claude/commands/handover.md ~/.claude/commands/housekeeping.md
+   rm ~/.claude/commands/bootstrap.md ~/.claude/commands/resume.md ~/.claude/commands/handover.md ~/.claude/commands/housekeeping.md ~/.claude/commands/capture.md
    ```
 
 5. **Delete the download:**
@@ -527,7 +527,7 @@ sessions, remove it first, with its own instructions.
 
    On a hosting service, delete the repository in its web page.
 
-7. **Check.** None of the four commands should be listed here:
+7. **Check.** None of the five commands should be listed here:
 
    ```bash
    ls ~/.claude/commands/
