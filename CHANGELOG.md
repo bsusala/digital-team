@@ -13,6 +13,9 @@ command, copy `commands/capture.md` into `~/.claude/commands/`.
   name. The conversation is the specification: it lists what was done, sorts each step into
   fixed, varying or judgment, places approval gates only before what cannot be undone, tests the
   procedure on the case just done, and saves it only on your yes.
+  Run after a session where you corrected a procedure, it updates that procedure instead,
+  shown as before → after. It also renames a procedure, keeps descriptions distinct so one
+  phrase fits one procedure, and keeps the department's list of procedures in `CLAUDE.md`.
 - **`CHANGELOG.md`:** this file.
 
 ### Changed

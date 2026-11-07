@@ -1,5 +1,5 @@
 ---
-description: Turn a task this department just did by hand into a named procedure it can run again — the conversation is the spec, the user's corrections become rules, their hesitations become approval gates
+description: Turn a task this department just did by hand into a named procedure it can run again, or fold a correction into one that exists — the conversation is the spec, the user's corrections become rules, their hesitations become approval gates
 ---
 
 # Capture a procedure
@@ -24,6 +24,19 @@ folder, committed with the rest of its work, so it travels when the department m
 -->
 
 ## Instructions
+
+### 0. New, or a change to one that exists?
+
+Read this department's `CLAUDE.md` `## Procedures` list and `.claude/skills/`.
+
+- **The session ran an existing procedure and the user corrected it** (a step was wrong, a
+  rule was missing, a gate asked for nothing): this is an **update**. Steps 1 to 3 cover only
+  what the correction changes; step 4 shows the change as before → after, never a rewrite;
+  step 5 runs the updated procedure on the case just corrected. Add the reason the user gave
+  to its "What not to do" list.
+- **The user asks to rename one:** rename its folder and its `name` together, update its line
+  in `## Procedures`, and tell the user the new phrase and `/<name>`. Nothing else changes.
+- **Otherwise it is new.** Continue with step 1.
 
 ### 1. Find the specification
 
@@ -73,7 +86,14 @@ nothing irreversible.
 
 ### 4. Write it
 
-Propose `.claude/skills/<name>/SKILL.md` — lowercase, hyphenated name the user agrees to:
+Propose `.claude/skills/<name>/SKILL.md` — lowercase, hyphenated name the user agrees to.
+The name is also its command: the user can type `/<name>` to run it, so choose words they
+would say.
+
+**Check the neighbours first.** Compare the new description with every procedure already in
+`## Procedures`. If a phrase the user would say could fit both, either make each description
+say what sets it apart ("monthly, for all clients" against "one client, on request"), or
+propose updating the existing one instead of adding a second.
 
 - **Frontmatter:** `name` (matches the folder) and `description`: what it does, then when
   to use it, in the department's own words and the phrases the user actually said. The
@@ -101,12 +121,22 @@ near-miss.
 
 ### 6. Register it
 
-Propose one line in this department's `CLAUDE.md`, under a `## Procedures` heading (create
-the heading if it is missing):
+Propose one line in this department's `CLAUDE.md`, under a `## Procedures` heading:
 
 ```
 - `<name>` — <what it does, in five to ten words> · say "<the user's trigger phrase>"
 ```
+
+If the heading is missing, create it with this line under it, before the first entry:
+
+```
+Run a procedure when the user's words fit one. If more than one could fit, name the
+candidates and ask which; never pick silently. "Which procedures do we have?" is answered
+from this list.
+```
+
+The list is the department's catalogue: the user asks "which procedures do we have?" and
+gets it, and `/skills` or the `/` menu in Claude Code shows the same procedures by name.
 
 **If it recurs**, ask how often, then offer the department's due-check: one line in
 `.claude/hooks/due-stamps.local` (`<label> TAB <stamp path> TAB <period in hours>`), and a
@@ -118,7 +148,7 @@ at the end of every turn. If the user declines, the procedure's description says
 ### 7. Commit
 
 Stage only the files this command wrote or changed, show `git status --short`, and commit
-on the user's yes: `Add procedure <name>`. Then tell the user, in one line, the phrase that
+on the user's yes: `Add procedure <name>` (or `Update procedure <name>`, `Rename procedure <old> to <new>`). Then tell the user, in one line, the phrase that
 runs it.
 
 ## What not to do
@@ -127,5 +157,7 @@ runs it.
 - **Do not hardcode the example.** Names, dates and amounts vary; the sequence does not.
 - **Do not gate everything.** Gate the irreversible and the judgment points; let the rest run.
 - **Do not skip the test run.** An untested procedure saves nothing.
+- **Do not rewrite a procedure to fix one step.** An update changes what the correction
+  changed, shown as before → after.
 - **Do not say "saved, runs weekly" without the due-check line.** Nothing would run it.
 - **Do not write outside this department's folder** or change another department's procedures.

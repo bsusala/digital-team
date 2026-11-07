@@ -268,6 +268,11 @@ the procedure on the case just done, and writes it as a project skill in
 operator's yes. A recurring procedure gets a due-check line, or says plainly that it is not
 scheduled.
 
+Each procedure runs by what you would say (its description) or by `/<name>`. The
+department's `CLAUDE.md` keeps the list under `## Procedures`; when more than one could fit
+your words, Claude names them and asks. Run `/capture` after a session where you corrected a
+procedure and it updates that one, shown as before → after; it also renames one on request.
+
 The habit matters more than the files. Ending a working session with `/handover` and
 starting the next with `/resume` is what turns a chat into a colleague - the session that
 greets you tomorrow knows what you did today, what went wrong, and what is next. Most of
