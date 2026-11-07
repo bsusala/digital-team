@@ -77,6 +77,7 @@ file wait for your yes. It asks you four things:
 | You open a session | `/resume` | Claude reads where you left off and tells you: done, in progress, next. |
 | You are about to close it | `/handover` | Claude writes `docs/CONTINUATION.md`: what changed, what is open, what comes next. Commit it. |
 | Once a week | `/housekeeping` | Claude checks `docs/ISSUES.md` against the code: closes what shipped, files what was never tracked, flags what is stuck. |
+| After a task worth repeating | `/capture` | Claude turns what you just did into a procedure the department can run by name. |
 
 That is the whole drill, and it works for one department with one session. The first
 `/resume` in a new department finds nothing - run `/handover` once at the end of your first

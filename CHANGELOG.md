@@ -5,6 +5,9 @@ What changed in each release, newest first. Upgrade steps between releases are i
 
 ## [Unreleased]
 
+### Changed
+- README, the daily drill: a row for `/capture`, after a task worth repeating.
+
 ## [3.3.1] — 2026-11-07
 
 Instructions only: nothing to install, and `RULES.md` is unchanged.
