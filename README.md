@@ -298,7 +298,9 @@ realistic risk is duller: that you stop reading its asks. Read them.
 **What does it cost?**
 
 A Claude plan. For a business, that is the Team plan, the one made for companies
-([claude.com/pricing](https://claude.com/pricing)). Ours is 100 EUR a month plus 21% VAT: 121 EUR. For comparison, in Romania the most
+([claude.com/pricing](https://claude.com/pricing)). Ours, at the time of writing, is around 100 USD a month,
+about 90 EUR on the invoice, plus 21% VAT: about 109 EUR. A Team plan starts at two seats, so your bill may be
+higher; the difference below stays the same order of magnitude. For comparison, in Romania the most
 junior programmer or DevOps engineer takes home about 1,500 EUR a month net, which costs the company roughly
 1.8 times that once taxes are paid: about 2,700 EUR. In our experience the setup covers the work of three to
 five multidisciplinary IT colleagues:
@@ -307,7 +309,7 @@ five multidisciplinary IT colleagues:
 |---|---|---|
 | 3 junior colleagues | 8,100 EUR | 97,200 EUR |
 | 5 junior colleagues | 13,500 EUR | 162,000 EUR |
-| the Digital Team | 121 EUR | 1,452 EUR |
+| the Digital Team | 109 EUR | 1,308 EUR |
 
 What it does not replace is the Human Operator.
 
