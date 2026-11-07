@@ -126,8 +126,9 @@ Start Claude Code:
 claude
 ```
 
-A browser window opens; sign in with your Claude account. You need a subscription that includes Claude Code
-(the Pro or Max plans), or Console credentials. Once it says "Login successful" you are in. Type `/exit` to
+A browser window opens; sign in with your Claude account. You need a paid plan, and every paid plan includes
+Claude Code. For a business, take the Team plan: it is the one made for companies, from two seats up
+([claude.com/pricing](https://claude.com/pricing)). Pro and Max are personal plans. Console credentials also work. Once it says "Login successful" you are in. Type `/exit` to
 leave for now. Claude Code updates itself; `claude update` forces an update.
 
 ### 6. Tell git who you are
@@ -264,10 +265,12 @@ Make the folder where Claude Code looks for commands:
 mkdir -p ~/.claude/commands
 ```
 
-Copy the five commands into it - `/bootstrap`, `/resume`, `/handover`, `/housekeeping`, `/capture`:
+Copy the five commands into it - `/bootstrap`, `/resume`, `/handover`, `/housekeeping`, `/capture`. `-i` makes
+`cp` ask before it replaces a file: if it asks, a command with that name is already there, so answer `n` and see
+[Updating the commands](MIGRATION.md#updating-the-commands):
 
 ```bash
-cp digital-team/commands/*.md ~/.claude/commands/
+cp -i digital-team/commands/*.md ~/.claude/commands/
 ```
 
 ### 2. Start Claude Code in the department's folder

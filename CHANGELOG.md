@@ -5,6 +5,20 @@ What changed in each release, newest first. Upgrade steps between releases are i
 
 ## [Unreleased]
 
+## [3.3.1] — date set at publish
+
+Instructions only: nothing to install, and `RULES.md` is unchanged.
+
+### Changed
+- Installing the commands and the hooks uses `cp -i`, which asks before it replaces a file, so a
+  command or hook you already have is never overwritten without your answer.
+- `MIGRATION.md` starts with what an upgrade changes on your computer, in plain words, and what it
+  never touches. Every release section says what it changes. New sections: before any upgrade
+  (update the download, commit, copy your commands), updating the commands and the hooks with a
+  comparison first, refreshing a setup that got mixed up while keeping your work, and going back.
+  A section for v3.2 to v3.3.
+- README and the setup guide: for a business, the Team plan, the one made for companies.
+
 ## [3.3.0] — 2026-11-07
 
 `RULES.md` is unchanged; nothing is ratified again and no migration is needed. To get the new

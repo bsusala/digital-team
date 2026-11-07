@@ -27,10 +27,11 @@ Make the folder where Claude Code looks for commands:
 mkdir -p ~/.claude/commands
 ```
 
-Copy the commands into it:
+Copy the commands into it. `-i` makes `cp` ask before it replaces a file: if it asks, a command with that
+name is already there, so answer `n` and see [Updating the commands](MIGRATION.md#updating-the-commands):
 
 ```bash
-cp digital-team/commands/*.md ~/.claude/commands/
+cp -i digital-team/commands/*.md ~/.claude/commands/
 ```
 
 **2. Once per department, run `/bootstrap`.** Make the department's folder, here for marketing:
@@ -99,8 +100,8 @@ its job.
 **4. Only if you run several sessions at once, one per department** (`/bootstrap` asks): follow
 [`SETUP.md`](SETUP.md) - lanes, a pilot, a shared log, the charter, the hooks. You do not have to do
 it alone: when the reminder comes, or whenever you ask, Claude walks you through it one step at a
-time and does each step on your yes. Already running the
-v2 charter, or v3.1? [`MIGRATION.md`](MIGRATION.md).
+time and does each step on your yes. Already running an
+earlier release? [`MIGRATION.md`](MIGRATION.md) says what an upgrade changes on your computer and how to go back.
 
 Start with steps 1 to 3 for a week before you touch step 4. The rest of this page is why.
 
@@ -113,7 +114,7 @@ coordinated team, each session owning one department of the business, on one wor
 |---|---|
 | `commands/` | Five slash commands: `/bootstrap` prepares a department; `/handover` and `/resume` give a session continuity across days; `/housekeeping` keeps its issue tracker honest across weeks; `/capture` turns a task done in the session into a procedure the department can run again. |
 | `SETUP.md` | How to set up a team, in stages: one session, a team, a guard underneath. |
-| `MIGRATION.md` | Moving an existing team between releases: v2 to v3, v3.1 to v3.2. |
+| `MIGRATION.md` | Moving to a newer release: what each one changes on your computer, how to update, refresh a mixed-up setup, or go back. |
 | `CHANGELOG.md` | What changed in each release, newest first. |
 | `RULES.md` | The team's charter - settled and frozen at this revision. |
 | `hooks/` | Five Claude Code hooks that wire the session rules into mechanism, and the housekeeping surfacer, with self-tests. |
@@ -296,7 +297,8 @@ realistic risk is duller: that you stop reading its asks. Read them.
 
 **What does it cost?**
 
-A Claude subscription. Ours is 100 EUR a month plus 21% VAT: 121 EUR. For comparison, in Romania the most
+A Claude plan. For a business, that is the Team plan, the one made for companies
+([claude.com/pricing](https://claude.com/pricing)). Ours is 100 EUR a month plus 21% VAT: 121 EUR. For comparison, in Romania the most
 junior programmer or DevOps engineer takes home about 1,500 EUR a month net, which costs the company roughly
 1.8 times that once taxes are paid: about 2,700 EUR. In our experience the setup covers the work of three to
 five multidisciplinary IT colleagues:

@@ -1,12 +1,152 @@
 # Migrating
 
+How to move to a newer release, what each step changes on your computer, and how to go back.
+
+- [What an upgrade changes](#what-an-upgrade-changes) — in plain words, before any command.
+- [Before any upgrade](#before-any-upgrade) — three steps that make every later one undoable.
+- [Updating the commands](#updating-the-commands) · [Updating a department's hooks](#updating-a-departments-hooks)
+- [From v3.2 to v3.3](#from-v32-to-v33) — one new command.
 - [From v3.1 to v3.2](#from-v31-to-v32) — tools and templates only; the charter is unchanged.
 - [From v2 to v3](#from-v2-to-v3) — the charter itself.
+- [Refreshing a setup that got mixed up](#refreshing-a-setup-that-got-mixed-up) — the latest release again, your work kept.
+- [Going back](#going-back)
+
+You do not have to type any of this yourself. In a department's session, ask Claude to take you through the
+section you need: it does one step at a time, says what the step changes, and does it on your yes.
+
+## What an upgrade changes
+
+Nothing here runs by itself and there is no installer: every step is a command you type, or one Claude types in
+a session on your yes. An upgrade touches only these five things:
+
+| What | Where it lives | What an upgrade does to it | How you get the old one back |
+|---|---|---|---|
+| The commands (`/bootstrap`, `/resume`, `/handover`, `/housekeeping`, `/capture`) | `~/.claude/commands/`, shared by every folder on the computer, and not in git | Replaces each file with the new release's | The copy you make before upgrading |
+| A department's hooks | `.claude/hooks/` in the department's folder | Replaces the files the release names, after you compare them | git |
+| A department's settings | `.claude/settings.json` | Adds the new release's entries beside yours; yours stay | git |
+| The team block and working agreement | the department's `CLAUDE.md` | Adds the lines the new template has; yours stay | git |
+| The charter (`RULES.md`) | the team-state repository, only if you run a team | Adds the new version beside the old; a department follows it only on your word in that department | git, and the old pin stays on record |
+
+**Never touched:** the department's own files and work, its tracker and logs (v3.2 moves them to another folder,
+unchanged), the procedures `/capture` saved, its git history, what Claude Code remembers about the folder, and
+your sign-in and Claude Code settings.
+
+**One department, no team?** Only the commands apply to you. The hooks, the team block and the charter are
+Stage 2 of [`SETUP.md`](SETUP.md).
+
+## Before any upgrade
+
+1. **Get the new release.** Update the download:
+
+   ```bash
+   git -C ~/digital-team pull
+   ```
+
+   If it says you are not on a branch (after [Going back](#going-back), say), first return to the latest:
+
+   ```bash
+   git -C ~/digital-team checkout main
+   ```
+
+   See which release you now have:
+
+   ```bash
+   git -C ~/digital-team describe --tags
+   ```
+
+2. **Commit every department.** In each department's folder, this should say `nothing to commit`:
+
+   ```bash
+   git status
+   ```
+
+   If it lists files, commit them first, or ask the session to. Everything git holds can be put back.
+
+3. **Copy your commands.** They are not in git, so this copy is the only way back for them:
+
+   ```bash
+   cp -r ~/.claude/commands ~/.claude/commands-backup-$(date +%F)
+   ```
+
+Then read the section of every release between yours and the new one, oldest first.
+
+## Updating the commands
+
+See which commands differ from the new release:
+
+```bash
+diff -rq ~/digital-team/commands ~/.claude/commands
+```
+
+How to read the answer:
+
+- `Files … differ` — that command changed in the release, or you edited your copy.
+- `Only in …/digital-team/commands` — a command new in this release.
+- `Only in …/.claude/commands` — one of your own. The upgrade leaves it alone.
+
+To see what changed in one command, here `/resume`:
+
+```bash
+diff ~/.claude/commands/resume.md ~/digital-team/commands/resume.md
+```
+
+**If one of your own commands has the same name as one of ours** (your own `/resume`, say), rename yours first,
+or the copy below replaces it. Here it becomes `/my-resume`:
+
+```bash
+mv ~/.claude/commands/resume.md ~/.claude/commands/my-resume.md
+```
+
+Copy the new release's commands:
+
+```bash
+cp ~/digital-team/commands/*.md ~/.claude/commands/
+```
+
+If you had edited one of ours, your version is in the backup folder from [Before any upgrade](#before-any-upgrade).
+Carry your change over by hand, or ask Claude to compare the two and carry it over.
+
+## Updating a department's hooks
+
+In the department's folder, after [Before any upgrade](#before-any-upgrade). Compare each hook the release
+section names before copying it, here the due-check:
+
+```bash
+diff .claude/hooks/due-check.sh ~/digital-team/hooks/due-check.sh
+```
+
+No output means it is already the same. If the department runs its own version of a hook, keep the difference
+you need: two versions of the same hook reading the same log can disagree. Copy the hooks the release names,
+make them runnable, and run the self-tests the release names: check the pass and fail counts, not the colour.
+Then commit.
+
+---
+
+## From v3.2 to v3.3
+
+`RULES.md` is unchanged. **What this changes on your computer:** one new file, `~/.claude/commands/capture.md`.
+Nothing in any department changes.
+
+```bash
+cp -i ~/digital-team/commands/capture.md ~/.claude/commands/
+```
+
+v3.3.1 changes only the instructions (this file, the README, `SETUP.md`, `hooks/README.md`): nothing to install.
 
 ## From v3.1 to v3.2
 
 `RULES.md` is byte-identical to v3.1, so no pin moves and nothing is ratified again. What changed is the
 tooling around it.
+
+**What this changes on your computer:**
+
+- **Commands:** `/bootstrap` and `/housekeeping` are replaced ([Updating the commands](#updating-the-commands)).
+  With one department and no team, that is all.
+- **Each department in a team:** two hooks and one script are added, and none replaced; `.claude/settings.json`
+  gains one SessionStart entry; the team block in `CLAUDE.md` gains three bullets and a line; the tracker, the
+  security log and the stamps move out of any `.claude/` folder, contents unchanged; `due-stamps.local` gains a
+  Housekeeping line.
+- **The charter:** nothing.
 
 ### What changed
 
@@ -39,22 +179,29 @@ tooling around it.
 1. **Pilot:** copy the new and changed files into the team-state repository's `hooks/` and `scripts/`, commit,
    and record the commit.
 2. **Each lane, on the operator's word in that lane** (these are hooks and settings, so the script-update route
-   in `SETUP.md` 2.10 does not apply): install from the named commit, merge the new SessionStart entry into
-   `.claude/settings.json` with the guard first, and run all five hook self-tests plus
+   in `SETUP.md` 2.10 does not apply): if the lane already has a file of the same name, compare it first
+   ([Updating a department's hooks](#updating-a-departments-hooks)); install from the named commit, merge the
+   new SessionStart entry into `.claude/settings.json` with the guard first, and run all five hook self-tests plus
    `bash scripts/backburner-delta.sh --selftest`. Check the counts, not the colour.
 3. **Each lane: move its records out of any `.claude/` folder**, if any are there — tracker, security log,
    stamps — repoint `due-stamps.local` and `team.conf`, commit, carry and read back. Fill in the
    "Lane records at:" line of the team block.
 4. **Each lane: add a Housekeeping line to `due-stamps.local`** if it has none; without one, `/housekeeping`
    never starts by itself.
-5. **Each lane: update the team block and the working agreement** from the templates, and record the change in
-   the pilot's log with the self-test counts.
+5. **Each lane: update the team block and the working agreement** from the templates: compare the template with
+   the lane's current block, add the lines the template adds, and keep the lane's own. Record the change in the
+   pilot's log with the self-test counts.
 
 ---
 
 ## From v2 to v3
 
 For a team already running the v2 charter (tags `v2` / `v2.1`). A fresh team starts from `SETUP.md` instead.
+
+**What this changes on your computer:** the team-state repository gains the v3 charter beside v2; each lane's
+`CLAUDE.md` gets a new pin line, with the old one kept beside it; each lane gains hooks in `.claude/hooks/` and
+their entries in `.claude/settings.json`; the commands gain `/bootstrap` and `/housekeeping`. Nothing is
+removed.
 
 ### What changed
 
@@ -118,3 +265,51 @@ word in each lane moves that lane.
   changes only by correction. Keep corrections in a separate errata file beside `RULES.md`, so that every
   lane's pin stays current, and fold them in at the next review.
 - **Keep the old pins.** A lane's history of pins is how a later reader tells which rules bound it when.
+
+---
+
+## Refreshing a setup that got mixed up
+
+For when the commands or the hooks no longer behave as they should — edited by hand, half-updated, copied from
+two releases — and you want the latest release again, without losing any work. It changes only the five things
+in [What an upgrade changes](#what-an-upgrade-changes), and never the list under **Never touched**.
+
+1. [Before any upgrade](#before-any-upgrade), all three steps.
+2. **The commands:** do [Updating the commands](#updating-the-commands), and copy every command, even those that
+   do not differ.
+3. **Each department in a team:** compare and copy every hook in [`hooks/README.md`](hooks/README.md), run all
+   the self-tests, compare `.claude/settings.json` with `hooks/settings-hooks.json` and add what is missing,
+   compare the team block with `templates/CLAUDE-team-block.md`. Commit.
+4. **The charter:** check each department's pin against the team-state repository. A refresh never moves a pin;
+   that stays your word, in that department.
+
+To remove everything and start from nothing instead, see [Starting over](SETUP.md#starting-over).
+
+## Going back
+
+- **The commands:** copy the backup back, here one made on 2026-11-07:
+
+  ```bash
+  cp ~/.claude/commands-backup-2026-11-07/*.md ~/.claude/commands/
+  ```
+
+  A command new in the release is not in the backup: delete it by hand, here `/capture`:
+
+  ```bash
+  rm ~/.claude/commands/capture.md
+  ```
+
+- **A department:** its hooks, settings and `CLAUDE.md` come back from git. Ask the session to undo the upgrade
+  commit, or do it yourself with `git revert <commit>`.
+- **The charter:** move the pin back to the old one, which stays on record, on your word in that department.
+- **The download:** go back to the release you had, here v3.3.0:
+
+  ```bash
+  git -C ~/digital-team checkout v3.3.0
+  ```
+
+  And forward to the latest again:
+
+  ```bash
+  git -C ~/digital-team checkout main
+  ```

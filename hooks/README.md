@@ -34,22 +34,23 @@ Make the folder for its hooks:
 mkdir -p .claude/hooks
 ```
 
-Copy the five hooks:
+Copy the five hooks. `-i` makes `cp` ask before it replaces a file: if it asks, this folder already has a hook
+with that name, so answer `n` and compare first ([`MIGRATION.md`](../MIGRATION.md#updating-a-departments-hooks)):
 
 ```bash
-cp ~/digital-team/hooks/r9-wrap-trigger.sh ~/digital-team/hooks/due-check.sh ~/digital-team/hooks/r9-unclosed-warn.sh ~/digital-team/hooks/compact-nudge.sh ~/digital-team/hooks/duplicate-session-guard.sh .claude/hooks/
+cp -i ~/digital-team/hooks/r9-wrap-trigger.sh ~/digital-team/hooks/due-check.sh ~/digital-team/hooks/r9-unclosed-warn.sh ~/digital-team/hooks/compact-nudge.sh ~/digital-team/hooks/duplicate-session-guard.sh .claude/hooks/
 ```
 
 Copy the housekeeping surfacer:
 
 ```bash
-cp ~/digital-team/hooks/housekeeping-reask.sh .claude/hooks/
+cp -i ~/digital-team/hooks/housekeeping-reask.sh .claude/hooks/
 ```
 
 Copy the five self-tests:
 
 ```bash
-cp ~/digital-team/hooks/r9-trigger-selftest.sh ~/digital-team/hooks/d2d3-selftest.sh ~/digital-team/hooks/compact-selftest.sh ~/digital-team/hooks/duplicate-session-guard-selftest.sh ~/digital-team/hooks/housekeeping-selftest.sh .claude/hooks/
+cp -i ~/digital-team/hooks/r9-trigger-selftest.sh ~/digital-team/hooks/d2d3-selftest.sh ~/digital-team/hooks/compact-selftest.sh ~/digital-team/hooks/duplicate-session-guard-selftest.sh ~/digital-team/hooks/housekeeping-selftest.sh .claude/hooks/
 ```
 
 Make them runnable:
