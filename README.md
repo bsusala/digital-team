@@ -116,7 +116,7 @@ coordinated team, each session owning one department of the business, on one wor
 | `MIGRATION.md` | Moving an existing team between releases: v2 to v3, v3.1 to v3.2. |
 | `RULES.md` | The team's charter - settled and frozen at this revision. |
 | `hooks/` | Five Claude Code hooks that wire the session rules into mechanism, and the housekeeping surfacer, with self-tests. |
-| `scripts/` | A team script: the backlog delta since the last housekeeping pass, with its self-test. |
+| `scripts/` | Two scripts, each with its self-test: the backlog delta since the last housekeeping pass, and `department.py`, which packs a department into one zip (its folder, what Claude Code keeps about it, and a how-to) to move it or keep a copy. |
 | `templates/` | The issue tracker, the CLAUDE.md team block, the team log. |
 | `diagrams/` | The team's shape, how authority travels, a session's life, a finding's life - each in a light and a dark version. |
 

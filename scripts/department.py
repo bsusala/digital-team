@@ -4,7 +4,7 @@
   python3 department.py pack <folder> [--out <dir>]
   python3 department.py --selftest
 
-The zip holds three things:
+The zip holds four things:
   department/   the folder exactly as it is: files, git history, uncommitted and untracked work
   claude/       what Claude Code keeps about the folder outside it, in ~/.claude/projects/<name>/
                 (memory and conversations), if there is any
@@ -241,7 +241,7 @@ def selftest():
         out = os.path.join(t, "out")
         fixed = datetime.datetime(2026, 11, 2, 19, 0, tzinfo=datetime.timezone.utc)
 
-        check("name: every non-alphanumeric becomes '-'", claude_name("/home/b/Company/sign.age") == "-home-b-Company-sign-age")
+        check("name: every non-alphanumeric becomes '-'", claude_name("/home/user/Company/sign.age") == "-home-user-Company-sign-age")
 
         rc, z = pack(dept, out, home=home, projects_dir=projects, now=fixed)
         check("pack: exit 0", rc == 0 and z is not None)
