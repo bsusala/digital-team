@@ -5,7 +5,7 @@ What changed in each release, newest first. Upgrade steps between releases are i
 
 ## [Unreleased]
 
-## [3.3.1] — date set at publish
+## [3.3.1] — 2026-11-07
 
 Instructions only: nothing to install, and `RULES.md` is unchanged.
 
@@ -133,7 +133,8 @@ The recipe around the charter.
 ### Added
 - The charter: R1–R13, the standing riders, R14 as a candidate, and `/handover` and `/resume`.
 
-[Unreleased]: https://github.com/bsusala/digital-team/compare/v3.3.0...HEAD
+[Unreleased]: https://github.com/bsusala/digital-team/compare/v3.3.1...HEAD
+[3.3.1]: https://github.com/bsusala/digital-team/compare/v3.3.0...v3.3.1
 [3.3.0]: https://github.com/bsusala/digital-team/compare/v3.2.3...v3.3.0
 [3.2.3]: https://github.com/bsusala/digital-team/compare/v3.2.2...v3.2.3
 [3.2.2]: https://github.com/bsusala/digital-team/compare/v3.2.1...v3.2.2
