@@ -18,8 +18,7 @@ Instructions only: nothing to install, and `RULES.md` is unchanged.
   comparison first, refreshing a setup that got mixed up while keeping your work, and going back.
   A section for v3.2 to v3.3.
 - README and the setup guide: for a business, the Team plan, the one made for companies.
-- README, what it costs: our figure as invoiced, around 100 USD a month, about 109 EUR with VAT
-  (was 121 EUR), and a note that a Team plan starts at two seats.
+- README, what it could cost: details about a Claude Team plan.
 
 ## [3.3.0] — 2026-11-07
 
