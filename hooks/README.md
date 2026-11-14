@@ -7,7 +7,7 @@ fail at exactly the moment they exist for, so the moment is wired instead.
 |---|---|---|
 | `r9-wrap-trigger.sh` | R9 | When the operator's words look like a close, reminds the session of the two things a close owes (the handover and the closing report). Logs how every session ended. |
 | `due-check.sh` | R20 | Tells the session and the operator when a periodic obligation (a security sweep, housekeeping) is due — at session start, at every prompt, and at the end of every turn. |
-| `r9-unclosed-warn.sh` | R9(d) | At session start, warns when the previous run ended without a close, so decisions that exist only in memory are looked for before building on the handover. |
+| `r9-unclosed-warn.sh` | R9(d) | At session start, warns when the previous run ended without a close, so decisions that exist only in memory are looked for before building on the handover. Headless runs (`claude -p`, scheduled tasks) are skipped; the latest interactive run is judged. |
 | `compact-nudge.sh` | R9 | When a long-lived conversation has been compacted (its older part replaced by a summary) for the second time or more, tells the operator and the session: at the next natural break, `/handover` and start fresh. The count, not the clock: an idle session does not decay, a compacted one loses detail each time. |
 | `duplicate-session-guard.sh` | — | At session start, when another interactive Claude Code session is already live in the same project, tells the operator (desktop notice and system message) and tells the new session to stay read-only until the operator says which one works here. Two sessions in one folder share the working tree, the git index and the memory, and nothing else warns. |
 
@@ -83,7 +83,7 @@ Run the five self-tests from the installed directory and check the counts, not t
 # expect 39 passed, 0 failed
 bash .claude/hooks/r9-trigger-selftest.sh .claude/hooks/r9-wrap-trigger.sh
 
-# expect 47 passed, 0 failed
+# expect 52 passed, 0 failed
 bash .claude/hooks/d2d3-selftest.sh .claude/hooks
 
 # expect 24 passed, 0 failed

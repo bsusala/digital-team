@@ -5,7 +5,18 @@ What changed in each release, newest first. Upgrade steps between releases are i
 
 ## [Unreleased]
 
+## [3.3.2] — 2026-11-14
+
+`RULES.md` is unchanged. One hook and its self-test are replaced; see [`MIGRATION.md`](MIGRATION.md).
+
+### Fixed
+- `r9-unclosed-warn.sh` no longer treats a headless run (`claude -p`, a scheduled task) as the previous
+  session. It used to warn after every scheduled run that the session "ended WITHOUT a close", and a real
+  unclosed interactive session that came before a scheduled run went unreported. The hook now skips runs
+  whose transcript records them as headless and judges the latest interactive run.
+
 ### Changed
+- `d2d3-selftest.sh`: five new cases for headless runs (52 in all).
 - README, the daily drill: a row for `/capture`, after a task worth repeating.
 
 ## [3.3.1] — 2026-11-07
@@ -136,7 +147,8 @@ The recipe around the charter.
 ### Added
 - The charter: R1–R13, the standing riders, R14 as a candidate, and `/handover` and `/resume`.
 
-[Unreleased]: https://github.com/bsusala/digital-team/compare/v3.3.1...HEAD
+[Unreleased]: https://github.com/bsusala/digital-team/compare/v3.3.2...HEAD
+[3.3.2]: https://github.com/bsusala/digital-team/compare/v3.3.1...v3.3.2
 [3.3.1]: https://github.com/bsusala/digital-team/compare/v3.3.0...v3.3.1
 [3.3.0]: https://github.com/bsusala/digital-team/compare/v3.2.3...v3.3.0
 [3.2.3]: https://github.com/bsusala/digital-team/compare/v3.2.2...v3.2.3

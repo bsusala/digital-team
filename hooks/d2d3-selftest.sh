@@ -4,8 +4,8 @@
 set -uo pipefail
 D="${1:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)}"
 TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
-export CLAUDE_PROJECT_DIR="$TMP/proj" DUE_STATE_DIR="$TMP/due" R9_STATE_DIR="$TMP/r9"
-mkdir -p "$CLAUDE_PROJECT_DIR/.claude/hooks" "$R9_STATE_DIR"
+export CLAUDE_PROJECT_DIR="$TMP/proj" DUE_STATE_DIR="$TMP/due" R9_STATE_DIR="$TMP/r9" R9_TRANSCRIPT_DIR="$TMP/tx"
+mkdir -p "$CLAUDE_PROJECT_DIR/.claude/hooks" "$R9_STATE_DIR" "$TMP/tx"
 pass=0; fail=0
 ok()  { echo "  PASS  $1"; pass=$((pass+1)); }
 bad() { echo "  FAIL  $1 — $2"; fail=$((fail+1)); }
@@ -92,6 +92,21 @@ printf '2026-09-24T08:00:00Z\tQ\tNO-MATCH\tlen=3 peer=0\n2026-09-24T10:20:00Z\tQ
 out="$(warn cur)"; printf '%s' "$out" | grep -q "No handover commit in its window" && ok "the window starts after the previous SESSION-END: an earlier run's handover is not this run's" || bad "window start" "$out"
 printf '2026-09-24T10:00:00Z\tP\tNO-MATCH\tlen=3 peer=0\n2026-09-24T10:40:00Z\tP\tNO-MATCH\tlen=5 peer=0\n' > "$L"
 out="$(warn cur)"; printf '%s' "$out" | grep -q "NO SESSION-END record.*committed at 2026-09-24T10:30:00Z" && ok "the died case carries the evidence, window ending at last-seen + grace" || bad "died + evidence" "$out"
+
+echo "== D3 headless runs =="
+tx() { printf '{"type":"summary"}\n{"parentUuid":null,"entrypoint":"%s","sessionId":"%s"}\n' "$2" "$1" > "$TMP/tx/$1.jsonl"; }
+tx I cli; tx H sdk-cli
+printf '2026-11-13T09:00:00Z\tI\tMATCH\twrap up\n2026-11-13T09:05:00Z\tI\tSESSION-END\treason=prompt_input_exit trigger_fired=yes\n2026-11-13T18:00:00Z\tH\tNO-MATCH\tlen=900 peer=0\n2026-11-13T18:04:00Z\tH\tSESSION-END\treason=other trigger_fired=no\n' > "$L"
+out="$(warn cur)"; [ -z "$out" ] && ok "a headless run after a closed interactive run is silent" || bad "headless after closed" "$out"
+printf '2026-11-13T09:00:00Z\tI\tNO-MATCH\tlen=3 peer=0\n2026-11-13T09:05:00Z\tI\tSESSION-END\treason=prompt_input_exit trigger_fired=no\n2026-11-13T18:00:00Z\tH\tNO-MATCH\tlen=900 peer=0\n2026-11-13T18:04:00Z\tH\tSESSION-END\treason=other trigger_fired=no\n' > "$L"
+out="$(warn cur)"; printf '%s' "$out" | grep -q "previous session I ended WITHOUT a close" && ok "an unclosed interactive run is not hidden behind a headless one" || bad "unclosed behind headless" "$out"
+tx H cli
+out="$(warn cur)"; printf '%s' "$out" | grep -q "previous session H ended WITHOUT a close" && ok "the same run marked interactive is judged (the skip fires only on sdk-cli)" || bad "cli not skipped" "$out"
+rm -f "$TMP/tx/H.jsonl"
+out="$(warn cur)"; printf '%s' "$out" | grep -q "previous session H ended WITHOUT a close" && ok "no transcript reads as interactive (never silences by absence)" || bad "missing transcript" "$out"
+tx H sdk-cli
+printf '2026-11-13T18:00:00Z\tH\tNO-MATCH\tlen=900 peer=0\n2026-11-13T18:04:00Z\tH\tSESSION-END\treason=other trigger_fired=no\n' > "$L"
+out="$(warn cur)"; [ -z "$out" ] && ok "a log holding only headless runs is silent" || bad "only headless" "$out"
 
 echo "RESULT: $pass passed, $fail failed"
 [ "$fail" -eq 0 ]

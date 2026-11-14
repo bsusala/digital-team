@@ -8,11 +8,16 @@
 # died. The run counts as closed only if a close phrase was matched inside it. A SESSION-END with reason=clear is a
 # deliberate act and stays silent.
 #
+# A headless run (`claude -p`, a scheduled task: its transcript records "entrypoint":"sdk-cli") is never the
+# previous run. It is skipped and the latest interactive run is judged, so a scheduled run neither raises a warning
+# of its own nor hides an interactive run that ended without a close. A run whose transcript cannot be found is
+# treated as interactive.
+#
 # When it warns, it adds one piece of evidence: the latest commit touching docs/CONTINUATION.md inside that run's
 # window (+15 min), or "no handover commit in its window". The verdict does not depend on it — a session can commit
 # its handover, keep working and die.
 # Known over-warn, stated in the line: a restart without a close phrase warns too; the reader judges.
-# R9_STATE_DIR and R9_NOW (epoch seconds) are TEST-ONLY seams.
+# R9_STATE_DIR, R9_TRANSCRIPT_DIR and R9_NOW (epoch seconds) are TEST-ONLY seams.
 set -uo pipefail
 
 proj="${CLAUDE_PROJECT_DIR:-$PWD}"
@@ -32,7 +37,12 @@ current="$(printf '%s' "$payload" | jq -r '.session_id // ""' 2>/dev/null || tru
 # skipped: the background service's pre-started sessions log a bare SESSION-END when they shut down, and judging one
 # of those names a session nobody used. Fields out: id <TAB> first instant <TAB> last instant <TAB> closed <TAB>
 # "END" + detail, or "OPEN" when the run never logged a SESSION-END (it died, or is still running elsewhere).
-run="$(awk -F'\t' '$1 !~ /^#/ && $2 != "" {
+TDIR="${R9_TRANSCRIPT_DIR:-$HOME/.claude/projects/$proj_key}"
+headless() { local t="$TDIR/$1.jsonl"
+  [ -f "$t" ] && [ "$(grep -m1 -o '"entrypoint":"[^"]*"' "$t" 2>/dev/null)" = '"entrypoint":"sdk-cli"' ]; }
+skip=" "
+for _ in $(seq 1 50); do
+run="$(awk -F'\t' -v skip="$skip" '$1 !~ /^#/ && $2 != "" && index(skip, " " $2 " ") == 0 {
     i++; id = $2
     if ($3 != "SESSION-END") {
       if (!(id in open)) { open[id] = 1; first[id] = $1; shut[id] = "no" }
@@ -49,6 +59,11 @@ run="$(awk -F'\t' '$1 !~ /^#/ && $2 != "" {
     }
     if (best != "") printf "%s", best
   }' "$LOG")"
+[ -n "$run" ] || exit 0
+headless "${run%%	*}" || break
+skip="$skip${run%%	*} "
+run=""
+done
 [ -n "$run" ] || exit 0
 IFS=$'\t' read -r prev first_seen last_seen closed state detail <<< "$run"
 end=""; [ "$state" = "END" ] && end="$last_seen	$detail"

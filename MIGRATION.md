@@ -122,6 +122,24 @@ Then commit.
 
 ---
 
+## From v3.3 to v3.3.2
+
+`RULES.md` is unchanged. **What this changes on your computer:** in each department that runs the hooks, two
+files in `.claude/hooks/` are replaced, `r9-unclosed-warn.sh` and `d2d3-selftest.sh`. Nothing else changes, and
+`.claude/settings.json` stays as it is.
+
+Follow [Updating a department's hooks](#updating-a-departments-hooks) for these two files:
+
+```bash
+diff .claude/hooks/r9-unclosed-warn.sh ~/digital-team/hooks/r9-unclosed-warn.sh
+cp -i ~/digital-team/hooks/r9-unclosed-warn.sh ~/digital-team/hooks/d2d3-selftest.sh .claude/hooks/
+chmod +x .claude/hooks/r9-unclosed-warn.sh .claude/hooks/d2d3-selftest.sh
+bash .claude/hooks/d2d3-selftest.sh .claude/hooks   # expect 52 passed, 0 failed
+```
+
+The self-test also exercises `due-check.sh`. A department that runs its own due-check instead runs it with
+`~/digital-team/hooks/due-check.sh` copied beside the hooks in a scratch folder.
+
 ## From v3.2 to v3.3
 
 `RULES.md` is unchanged. **What this changes on your computer:** one new file, `~/.claude/commands/capture.md`.
